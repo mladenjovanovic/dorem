@@ -1,0 +1,22 @@
+Package: dorem
+Title: Dose Response Modeling
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Mladen",
+           family = "Jovanovic",
+           role = c("aut", "cre"),
+           email = "coach.mladen.jovanovic@gmail.com")
+Description: This package models training dose to training response. 
+URL: https://github.com/mladenjovanovic/dorem
+BugReports: https://github.com/mladenjovanovic/dorem/issues
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    hardhat,
+    rlang,
+    stats
+Suggests: 
+    recipes
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.0.2
