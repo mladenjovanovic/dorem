@@ -1,3 +1,9 @@
-^dorem\.Rproj$
+^.*\.Rproj$
 ^\.Rproj\.user$
+^data-raw$
 ^README\.Rmd$
+^doc$
+^Meta$
+^docs$
+^pkgdown$
+^cran-comments\.md$

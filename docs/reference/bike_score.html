@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • dorem</title>
+<title>Cycling BikeScore and 5min Test Power — bike_score • dorem</title>
 
 
 <!-- jquery -->
@@ -35,7 +35,21 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Cycling BikeScore and 5min Test Power — bike_score" />
+<meta property="og:description" content="Example data provided in supplementary material
+of Clarke &amp;amp; Skiba, 2013 paper, freely available on the publisher website. Data set contains cycling training load (i.e. dose)
+measured using the BikeScore metric (in AU) over 165 days, with occasional training response measured using 5-min Power Test (in Watts).
+Using Banister model implemented in Microsoft Excel, Clarke &amp;amp; Skiba, 2013 estimate the following parameters:
+Intercept of 262 W
+Gain of Positive Training Effect of 0.18 W/AU
+Gain of Negative Training Effect of 0.23 W/AU
+Time Constant of Positive Training Effect of 36 days
+Time Constant of Negative Training Effect of 21 days
+Sums of Square Error equal to 20.25 W
+R Squared (Variance explained) of 0.979
+
+" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -54,7 +68,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -101,54 +115,53 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Cycling BikeScore and 5min Test Power</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mladenjovanovic/dorem/blob/master/R/bike_score.R'><code>R/bike_score.R</code></a></small>
+    <div class="hidden name"><code>bike_score.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Example data provided in <a href='https://journals.physiology.org/doi/full/10.1152/advan.00078.2011m'>supplementary material</a>
+of Clarke &amp; Skiba, 2013 paper, freely available on the publisher website. Data set contains cycling training load (i.e. dose)
+measured using the BikeScore metric (in AU) over 165 days, with occasional training response measured using 5-min Power Test (in Watts).
+Using Banister model implemented in Microsoft Excel, Clarke &amp; Skiba, 2013 estimate the following parameters:</p><ul>
+<li><p>Intercept of 262 W</p></li>
+<li><p>Gain of Positive Training Effect of 0.18 W/AU</p></li>
+<li><p>Gain of Negative Training Effect of 0.23 W/AU</p></li>
+<li><p>Time Constant of Positive Training Effect of 36 days</p></li>
+<li><p>Time Constant of Negative Training Effect of 21 days</p></li>
+<li><p>Sums of Square Error equal to 20.25 W</p></li>
+<li><p>R Squared (Variance explained) of 0.979</p></li>
+</ul>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    </div>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="bike_score.html">bike_score</a></code> </p>
-        </td>
-        <td><p>Cycling BikeScore and 5min Test Power</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="dorem.html">dorem()</a></code> </p>
-        </td>
-        <td><p>Fit a <code>dorem</code></p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="predict.dorem.html">predict(<i>&lt;dorem&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Predict from a <code>dorem</code></p></td>
-      </tr>
-    </tbody>
-    </table>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>bike_score</span>)</pre>
+
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>Data frame with 3 variables and 165 observations:</p><dl class='dl-horizontal'>
+<dt>Day</dt><dd><p>Integer vector</p></dd>
+<dt>BikeScore</dt><dd><p>BikeScore training load metric in arbitrary units</p></dd>
+<dt>Test_5min_Power</dt><dd><p>Results of occasional 5min Power Test in Watts</p></dd>
+
+</dl>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p>Clarke DC, Skiba PF. 2013. Rationale and resources for teaching the mathematical modeling of athletic
+training and performance. Advances in Physiology Education 37:134–152. DOI: 10.1152/advan.00078.2011.</p>
+
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#format">Format</a></li>
+      <li><a href="#source">Source</a></li>
     </ul>
+
   </div>
 </div>
 
