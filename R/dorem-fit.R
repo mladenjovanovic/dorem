@@ -97,9 +97,13 @@ dorem.recipe <- function(x, data, ...) {
 
 dorem_bridge <- function(processed, ...) {
   predictors <- processed$predictors
-  outcome <- processed$outcomes[[1]]
+  outcome <- processed$outcomes
 
-  fit <- dorem_impl(predictors, outcome)
+  # Validate
+  hardhat::validate_outcomes_are_univariate(outcome)
+  outcome <- outcome[[1]]
+
+  fit <- dorem_impl(predictors, outcome, ...)
 
   new_dorem(
     coefs = fit$coefs,
