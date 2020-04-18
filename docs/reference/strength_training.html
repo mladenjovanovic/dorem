@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • dorem</title>
+<title>Strength Training Dose and Estimated 1RM — strength_training • dorem</title>
 
 
 <!-- jquery -->
@@ -35,7 +35,14 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Strength Training Dose and Estimated 1RM — strength_training" />
+<meta property="og:description" content="This data set is used in Jovanovic, M. (2020) and it is generated for the purpose of demonstrating
+one particular method of dose-response modeling. It represents strength training dose for N=10
+athletes over 90 days. Training dose is represents with total upper- or lower- number of lifts
+(UBNL, LBNL), while the training response is represented with estimated 1RM variable
+(est1RM). Additional variables in this data set are workout (either Total, Lower, Upper
+or Off) and type indicating training stress (easy, medium, hard)." />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -54,7 +61,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -101,60 +108,56 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Strength Training Dose and Estimated 1RM</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mladenjovanovic/dorem/blob/master/R/strength-training.R'><code>R/strength-training.R</code></a></small>
+    <div class="hidden name"><code>strength_training.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>This data set is used in Jovanovic, M. (2020) and it is generated for the purpose of demonstrating
+one particular method of dose-response modeling. It represents strength training dose for N=10
+athletes over 90 days. Training dose is represents with total upper- or lower- number of lifts
+(<code>UBNL</code>, <code>LBNL</code>), while the training response is represented with estimated 1RM variable
+(<code>est1RM</code>). Additional variables in this data set are <code>workout</code> (either Total, Lower, Upper
+or Off) and <code>type</code> indicating training stress (easy, medium, hard).</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>strength_training</span>)</pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="bike_score.html">bike_score</a></code> </p>
-        </td>
-        <td><p>Cycling BikeScore and 5min Test Power</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="dorem.html">dorem()</a></code> </p>
-        </td>
-        <td><p>Fit a <code>dorem</code></p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="predict.dorem.html">predict(<i>&lt;dorem&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Predict from a <code>dorem</code></p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="strength_training.html">strength_training</a></code> </p>
-        </td>
-        <td><p>Strength Training Dose and Estimated 1RM</p></td>
-      </tr>
-    </tbody>
-    </table>
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>Data frame with 900 observations and 8 variables:</p><dl class='dl-horizontal'>
+<dt>athlete</dt><dd><p>Factor with 10 levels, indicating athlete names</p></dd>
+<dt>day</dt><dd><p>Integer vector, indicating training day, from 1 to 90</p></dd>
+<dt>workout</dt><dd><p>Factor with 4 levels, indicating type of training session: Total, Lower, Upper and Off</p></dd>
+<dt>type</dt><dd><p>Factor with 4 levels, indicating training stress: Easy, Medium, and Hard</p></dd>
+<dt>UBNL</dt><dd><p>Integer vector, indicating upper body number of lifts in a session.
+This represent the training dose</p></dd>
+<dt>LBNL</dt><dd><p>Integer vector, indicating lower body number of lifts in a session.
+This represent the training dose</p></dd>
+<dt>est1RM</dt><dd><p>Numeric vector, indicating estimated 1RM, or the training response</p></dd>
+<dt>est1RMchange</dt><dd><p>Numeric vector, indicating day-to-day change in <code>est1RM</code></p></dd>
+
+</dl>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    
+<pre>Jovanović M. 2020. Strength Training Manual: The Agile Periodization Approach.
+Independently published. ISBN: 9798604459898
+</pre>
+
+
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#format">Format</a></li>
+      <li><a href="#source">Source</a></li>
     </ul>
+
   </div>
 </div>
 
