@@ -55,19 +55,22 @@ A \code{dorem} object.
 \code{dorem()} fits a model.
 }
 \examples{
-predictors <- mtcars[, -1]
-outcome <- mtcars[, 1]
+require(tidyverse)
 
-# XY interface
-mod <- dorem(predictors, outcome)
+data("bike_score")
 
-# Formula interface
-mod2 <- dorem(mpg ~ ., mtcars)
+banister_model <- dorem(
+  Test_5min_Power ~ BikeScore,
+  bike_score,
+  method = "banister"
+)
 
-# Recipes interface
-library(recipes)
-rec <- recipe(mpg ~ ., mtcars)
-rec <- step_log(rec, disp)
-mod3 <- dorem(rec, mtcars)
+bike_score$pred <- predict(banister_model, bike_score)$.pred
+
+ggplot(bike_score, aes(x = Day, y = pred)) +
+  theme_bw() +
+  geom_line() +
+  geom_point(aes(y = Test_5min_Power), color = "red") +
+  ylab("Test 5min Power")
 
 }

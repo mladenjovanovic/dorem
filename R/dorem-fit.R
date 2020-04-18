@@ -30,20 +30,23 @@
 #' A `dorem` object.
 #'
 #' @examples
-#' predictors <- mtcars[, -1]
-#' outcome <- mtcars[, 1]
+#' require(tidyverse)
 #'
-#' # XY interface
-#' mod <- dorem(predictors, outcome)
+#' data("bike_score")
 #'
-#' # Formula interface
-#' mod2 <- dorem(mpg ~ ., mtcars)
+#' banister_model <- dorem(
+#'   Test_5min_Power ~ BikeScore,
+#'   bike_score,
+#'   method = "banister"
+#' )
 #'
-#' # Recipes interface
-#' library(recipes)
-#' rec <- recipe(mpg ~ ., mtcars)
-#' rec <- step_log(rec, disp)
-#' mod3 <- dorem(rec, mtcars)
+#' bike_score$pred <- predict(banister_model, bike_score)$.pred
+#'
+#' ggplot(bike_score, aes(x = Day, y = pred)) +
+#'   theme_bw() +
+#'   geom_line() +
+#'   geom_point(aes(y = Test_5min_Power), color = "red") +
+#'   ylab("Test 5min Power")
 #'
 #' @export
 dorem <- function(x, ...) {
@@ -106,7 +109,10 @@ dorem_bridge <- function(processed, ...) {
   fit <- dorem_impl(predictors, outcome, ...)
 
   new_dorem(
+    method = fit$method,
     coefs = fit$coefs,
+    performance = fit$performance,
+    control = fit$control,
     blueprint = processed$blueprint
   )
 }
@@ -114,7 +120,29 @@ dorem_bridge <- function(processed, ...) {
 
 # ------------------------------------------------------------------------------
 # Implementation
+dorem_impl <- function(predictors, outcome, method = "banister", control = NULL) {
+  # Check if method is correct
+  rlang::arg_match(method, valid_dorem_methods())
 
-dorem_impl <- function(predictors, outcome) {
-  list(coefs = 1)
+  # Select appropriate train function based on the method employed
+  dorem_train_func <- switch(
+    method,
+    banister = banister_train
+  )
+
+  train_results <- dorem_train_func(predictors, outcome, control)
+
+  # Return object
+  list(
+    method = method,
+    coefs = train_results$coef,
+    performance = train_results$performance,
+    control = control)
+}
+
+
+# ------------------------------------------------------------------------------
+# All valid dorem methods
+valid_dorem_methods <- function() {
+  c("banister")
 }

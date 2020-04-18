@@ -27,13 +27,22 @@ to be the same as the number of rows in \code{new_data}.
 Predict from a \code{dorem}
 }
 \examples{
-train <- mtcars[1:20,]
-test <- mtcars[21:32, -1]
+require(tidyverse)
 
-# Fit
-mod <- dorem(mpg ~ cyl + log(drat), train)
+data("bike_score")
 
-# Predict, with preprocessing
-predict(mod, test)
+banister_model <- dorem(
+  Test_5min_Power ~ BikeScore,
+  bike_score,
+  method = "banister"
+)
+
+bike_score$pred <- predict(banister_model, bike_score)$.pred
+
+ggplot(bike_score, aes(x = Day, y = pred)) +
+  theme_bw() +
+  geom_line() +
+  geom_point(aes(y = Test_5min_Power), color = "red") +
+  ylab("Test 5min Power")
 
 }

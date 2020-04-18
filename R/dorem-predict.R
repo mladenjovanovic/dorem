@@ -17,14 +17,23 @@
 #' to be the same as the number of rows in `new_data`.
 #'
 #' @examples
-#' train <- mtcars[1:20,]
-#' test <- mtcars[21:32, -1]
+#' require(tidyverse)
 #'
-#' # Fit
-#' mod <- dorem(mpg ~ cyl + log(drat), train)
+#' data("bike_score")
 #'
-#' # Predict, with preprocessing
-#' predict(mod, test)
+#' banister_model <- dorem(
+#'   Test_5min_Power ~ BikeScore,
+#'   bike_score,
+#'   method = "banister"
+#' )
+#'
+#' bike_score$pred <- predict(banister_model, bike_score)$.pred
+#'
+#' ggplot(bike_score, aes(x = Day, y = pred)) +
+#'   theme_bw() +
+#'   geom_line() +
+#'   geom_point(aes(y = Test_5min_Power), color = "red") +
+#'   ylab("Test 5min Power")
 #'
 #' @export
 predict.dorem <- function(object, new_data, type = "numeric", ...) {
@@ -41,7 +50,6 @@ valid_predict_types <- function() {
 # Bridge
 
 predict_dorem_bridge <- function(type, model, predictors) {
-  predictors <- as.matrix(predictors)
 
   predict_function <- get_predict_function(type)
   predictions <- predict_function(model, predictors)
@@ -62,6 +70,12 @@ get_predict_function <- function(type) {
 # Implementation
 
 predict_dorem_numeric <- function(model, predictors) {
-  predictions <- rep(1L, times = nrow(predictors))
+  # Select appropriate prediction function based on the method employed
+  dorem_predict_func <- switch(
+    model$method,
+    banister = banister_predict
+  )
+
+  predictions <- dorem_predict_func(model, predictors)
   hardhat::spruce_numeric(predictions)
 }
