@@ -1,4 +1,5 @@
-#' Training function
+# ------------------------------------------------------------------------------
+# Training function
 banister_train <- function(predictors, outcome, control) {
 
   coefs <- banister_make_coefs(predictors)
