@@ -11,6 +11,11 @@ The goal of `dorem` is to provide easy-to-use dose-response models
 utilized in sport science. This package is currently in active
 development phases.
 
+## Authors
+
+* Mladen Jovanovic
+* Ben Stephens-Hemingway
+
 ## Installation
 
 You can install the development version from
