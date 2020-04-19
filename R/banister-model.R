@@ -27,9 +27,9 @@ banister_train <- function(predictors, outcome, control) {
 
   # Create the lower bound (which are zeros)
   lower_bounds <- rep(0, length(par))
-  upper_bounds <- rep(Inf, length(par))
+  upper_bounds <- rep(300, length(par))
 
-  # Optim function
+    # Optim function
   model <- optimx::optimx(
     par = par,
     fn = objective_func,
@@ -40,6 +40,7 @@ banister_train <- function(predictors, outcome, control) {
     #method = "L-BFGS-B",
     #lower = lower_bounds,
     #upper = upper_bounds,
+    hessian = TRUE,
     control = list(trace = FALSE, maxit = 1000)
     )
 
