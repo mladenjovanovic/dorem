@@ -12,11 +12,6 @@ The goal of `dorem` is to provide easy-to-use dose-response models
 utilized in sport science. This package is currently in active
 development phases.
 
-## Authors
-
-* Mladen Jovanovic
-* Ben Stephens-Hemingway
-
 ## Installation
 
 You can install the development version from
@@ -76,7 +71,7 @@ cowplot::plot_grid(dose, response, ncol = 1)
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="90%" style="display: block; margin: auto;" />
 
 This package is in ongoing development phase and more examples will
-follow….
+follow…
 
 ## References
 

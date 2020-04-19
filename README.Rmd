@@ -76,7 +76,7 @@ response <- ggplot(bike_score, aes(x = Day, y = pred)) +
 cowplot::plot_grid(dose, response, ncol = 1)
 ```
 
-This package is in ongoing development phase and more examples will follow.... 
+This package is in ongoing development phase and more examples will follow...
 
 ## References
 
