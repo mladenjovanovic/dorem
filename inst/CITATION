@@ -6,12 +6,12 @@ citEntry(entry = "Manual",
   note         = "R package version 0.0.0.9000",
   year         = "2020",
   url          = "https://mladenjovanovic.github.io/dorem/",
-  doi          = "",
+  doi          = "10.5281/zenodo.3757085",
 
   textVersion  =
   paste("Mladen Jovanovic (2020).",
         "dorem: Dose Response Modeling.",
         "R package version 0.0.0.9000",
         "url: https://mladenjovanovic.github.io/dorem/",
-        "doi: ")
+        "doi: 10.5281/zenodo.3757085")
 )

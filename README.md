@@ -5,6 +5,7 @@
 
 <!-- badges: start -->
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3757085.svg)](https://doi.org/10.5281/zenodo.3757085)
 <!-- badges: end -->
 
 The goal of `dorem` is to provide easy-to-use dose-response models
