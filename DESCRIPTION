@@ -6,7 +6,10 @@ Authors@R:
            family = "Jovanovic",
            role = c("aut", "cre"),
            email = "coach.mladen.jovanovic@gmail.com")
-Description: This package models training dose to training response. 
+Description: Understanding the effects of training dose to training response
+    (i.e., performance) is one of the major goals of sports science. 
+    The goal of this package is to provide easy-to-use dose-response models
+    commonly applied in understanding aforementioned relationships.
 URL: https://github.com/mladenjovanovic/dorem
 BugReports: https://github.com/mladenjovanovic/dorem/issues
 License: MIT + file LICENSE
@@ -18,7 +21,8 @@ Imports:
     rlang,
     stats,
     purrr,
-    optimx
+    optimx,
+    NMOF
 Suggests: 
     recipes,
     tidyverse
