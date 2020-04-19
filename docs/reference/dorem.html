@@ -174,10 +174,10 @@ and the predictor terms on the right-hand side.</p></td>
     <p>A <code>dorem</code> object.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>tidyverse</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: tidyverse</span></div><div class='output co'>#&gt; <span class='message'>── <span style='font-weight: bold;'>Attaching packages</span><span> ──────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>ggplot2</span><span> 3.3.0     </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>purrr  </span><span> 0.3.4</span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>tidyverse</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: tidyverse</span></div><div class='output co'>#&gt; <span class='message'>── <span style='font-weight: bold;'>Attaching packages</span><span> ────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>ggplot2</span><span> 3.3.0     </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>purrr  </span><span> 0.3.4</span>
 #&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>tibble </span><span> 3.0.0     </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>dplyr  </span><span> 0.8.5</span>
 #&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>tidyr  </span><span> 1.0.2     </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>stringr</span><span> 1.4.0</span>
-#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>readr  </span><span> 1.3.1     </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>forcats</span><span> 0.5.0</span></div><div class='output co'>#&gt; <span class='message'>── </span><span style='font-weight: bold;'>Conflicts</span><span> ─────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──</span>
+#&gt; <span class='message'></span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>readr  </span><span> 1.3.1     </span><span style='color: #00BB00;'>✓</span><span> </span><span style='color: #0000BB;'>forcats</span><span> 0.5.0</span></div><div class='output co'>#&gt; <span class='message'>── </span><span style='font-weight: bold;'>Conflicts</span><span> ───────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──</span>
 #&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>filter()</span><span> masks </span><span style='color: #0000BB;'>stats</span><span>::filter()</span>
 #&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>lag()</span><span>    masks </span><span style='color: #0000BB;'>stats</span><span>::lag()</span></div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"bike_score"</span>)
@@ -186,8 +186,82 @@ and the predictor terms on the right-hand side.</p></td>
   <span class='no'>Test_5min_Power</span> ~ <span class='no'>BikeScore</span>,
   <span class='no'>bike_score</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"banister"</span>
-)
-
+)</div><div class='output co'>#&gt; fn is  fn 
+#&gt; Looking for method =  L-BFGS-B 
+#&gt; Function has  5  arguments
+#&gt; par[ 1 ]:  0   &lt;? 0   &lt;? 300     In Bounds  
+#&gt; par[ 2 ]:  0   &lt;? 1   &lt;? 300     In Bounds  
+#&gt; par[ 3 ]:  0   &lt;? 5   &lt;? 300     In Bounds  
+#&gt; par[ 4 ]:  0   &lt;? 1   &lt;? 300     In Bounds  
+#&gt; par[ 5 ]:  0   &lt;? 5   &lt;? 300     In Bounds  
+#&gt; Analytic gradient not made available.
+#&gt; Analytic Hessian not made available.
+#&gt; Scale check -- log parameter ratio= 0.69897   log bounds ratio= 0 
+#&gt; Method:  L-BFGS-B 
+#&gt; iter   10 value 895.484047
+#&gt; iter   20 value 474.173105
+#&gt; iter   30 value 471.763764
+#&gt; iter   40 value 464.052511
+#&gt; iter   50 value 457.942448
+#&gt; iter   60 value 450.902361
+#&gt; iter   70 value 446.841193
+#&gt; iter   80 value 439.443886
+#&gt; iter   90 value 429.568588
+#&gt; iter  100 value 420.459555
+#&gt; iter  110 value 417.434300
+#&gt; iter  120 value 411.911936
+#&gt; iter  130 value 372.485891
+#&gt; iter  140 value 346.757036
+#&gt; iter  150 value 309.407236
+#&gt; iter  160 value 231.149460
+#&gt; iter  170 value 138.694435
+#&gt; iter  180 value 39.780258
+#&gt; iter  190 value 14.272054
+#&gt; iter  200 value 7.223372
+#&gt; final  value 7.223372 
+#&gt; converged
+#&gt; Post processing for method  L-BFGS-B 
+#&gt; Successful convergence! 
+#&gt; Compute Hessian approximation at finish of  L-BFGS-B 
+#&gt; Compute gradient approximation at finish of  L-BFGS-B 
+#&gt; Save results from method  L-BFGS-B 
+#&gt; $par
+#&gt;          intercept BikeScore.PTE_gain  BikeScore.PTE_tau BikeScore.NTE_gain 
+#&gt;       2.389877e+02       2.366773e+02       9.128207e-03       0.000000e+00 
+#&gt;  BikeScore.NTE_tau 
+#&gt;       2.700027e+01 
+#&gt; 
+#&gt; $value
+#&gt; [1] 7.223372
+#&gt; 
+#&gt; $message
+#&gt; [1] "CONVERGENCE: REL_REDUCTION_OF_F &lt;= FACTR*EPSMCH"
+#&gt; 
+#&gt; $convcode
+#&gt; [1] 0
+#&gt; 
+#&gt; $fevals
+#&gt; function 
+#&gt;      275 
+#&gt; 
+#&gt; $gevals
+#&gt; gradient 
+#&gt;      275 
+#&gt; 
+#&gt; $nitns
+#&gt; [1] NA
+#&gt; 
+#&gt; $kkt1
+#&gt; [1] FALSE
+#&gt; 
+#&gt; $kkt2
+#&gt; [1] FALSE
+#&gt; 
+#&gt; $xtimes
+#&gt; user.self 
+#&gt;     5.974 
+#&gt; 
+#&gt; Assemble the answers</div><div class='input'>
 <span class='no'>bike_score</span>$<span class='no'>pred</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>banister_model</span>, <span class='no'>bike_score</span>)$<span class='no'>.pred</span>
 
 <span class='fu'>ggplot</span>(<span class='no'>bike_score</span>, <span class='fu'>aes</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>Day</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>pred</span>)) +

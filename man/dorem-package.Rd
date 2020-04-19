@@ -22,5 +22,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Mladen Jovanovic \email{coach.mladen.jovanovic@gmail.com}
 
+Other contributors:
+\itemize{
+  \item Benedict Stephens Hemingway \email{b.stephens-hemingway@rgu.ac.uk} [contributor]
+}
+
 }
 \keyword{internal}

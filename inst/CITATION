@@ -2,16 +2,16 @@ citHeader("To cite 'dorem' in publications use:")
 
 citEntry(entry = "Manual",
   title        = "{dorem}: Dose Response Modeling",
-  author       = personList(as.person("Mladen Jovanovic")),
+  author       = personList(as.person("Mladen Jovanovic"), as.person("Benedict Stephens Hemingway")),
   note         = "R package version 0.0.0.9000",
   year         = "2020",
   url          = "https://mladenjovanovic.github.io/dorem/",
   doi          = "10.5281/zenodo.3757085",
 
   textVersion  =
-  paste("Mladen Jovanovic (2020).",
+  paste("Mladen Jovanovic, Benedict Stephens Hemingway (2020).",
         "dorem: Dose Response Modeling.",
-        "R package version 0.0.0.9000",
-        "url: https://mladenjovanovic.github.io/dorem/",
+        "R package version 0.0.0.9000.",
+        "url: https://mladenjovanovic.github.io/dorem/.",
         "doi: 10.5281/zenodo.3757085")
 )

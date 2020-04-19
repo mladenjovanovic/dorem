@@ -36,12 +36,12 @@ banister_train <- function(predictors, outcome, control) {
     predictors = predictors,
     outcome = outcome,
     coefs = coefs,
-    method = "BFGS",
-    #method = "L-BFGS-B",
-    #lower = lower_bounds,
-    #upper = upper_bounds,
+    #method = "BFGS",
+    method = "L-BFGS-B",
+    lower = lower_bounds,
+    upper = upper_bounds,
     hessian = TRUE,
-    control = list(trace = FALSE, maxit = 1000)
+    control = list(trace = TRUE, maxit = 1000)
     )
 
   model_coefs <- stats::coef(model)
