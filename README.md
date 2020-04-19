@@ -28,14 +28,16 @@ require(dorem)
 
 To provide very simplistic example of `dorem`, I will use example data
 provided in [supplementary
-material](https://journals.physiology.org/doi/suppl/10.1152/advan.00078.2011/suppl_file/tableS1.xlsx)
-of Clarke & Skiba, 2013 [paper](https://journals.physiology.org/doi/full/10.1152/advan.00078.2011?), freely available on the publisher
-website. Data set contains cycling training load (i.e. dose) measured
-using the BikeScore metric (in AU) over 165 days, with occasional
-training response measured using 5-min Power Test (in Watts). *Banister*
-model (explained in aforementioned paper) is applied to understand
-relationship between *training dose* (i.e., BikeScore metric) and
-*training response* (i.e., 5-min Power Test):
+material](https://journals.physiology.org/doi/full/10.1152/advan.00078.2011m)
+of Clarke & Skiba, 2013
+[paper](https://journals.physiology.org/doi/full/10.1152/advan.00078.2011?),
+freely available on the publisher website. Data set contains cycling
+training load (i.e. dose) measured using the BikeScore metric (in AU)
+over 165 days, with occasional training response measured using 5-min
+Power Test (in Watts). *Banister* model (explained in aforementioned
+paper) is applied to understand relationship between *training dose*
+(i.e., BikeScore metric) and *training response* (i.e., 5-min Power
+Test):
 
 ``` r
 require(dorem)

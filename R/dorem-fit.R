@@ -110,8 +110,12 @@ dorem_bridge <- function(processed, ...) {
 
   new_dorem(
     method = fit$method,
+    data = fit$data,
+    weights = fit$weights,
     coefs = fit$coefs,
+    loss_func_value = fit$loss_func_value,
     performance = fit$performance,
+    cross_validation = fit$cross_validation,
     control = fit$control,
     blueprint = processed$blueprint
   )
@@ -120,7 +124,7 @@ dorem_bridge <- function(processed, ...) {
 
 # ------------------------------------------------------------------------------
 # Implementation
-dorem_impl <- function(predictors, outcome, method = "banister", control = NULL) {
+dorem_impl <- function(predictors, outcome, method = "banister", weights = NULL, control = dorem_control()) {
   # Check if method is correct
   rlang::arg_match(method, valid_dorem_methods())
 
@@ -130,13 +134,31 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = NULL)
     banister = banister_train
   )
 
-  train_results <- dorem_train_func(predictors, outcome, control)
+  # Set-up seed for reproducibility
+  set.seed(control$seed)
+
+  # Set up weights
+  if(is.null(weights)) {
+    weights <- rep(1, length(outcome))
+  }
+
+  # Perform model
+  train_results <- dorem_train_func(predictors, outcome, weights, control)
+
+  cross_validation <- 0
 
   # Return object
   list(
     method = method,
+    data = list(
+      predictors = predictors,
+      outcome = outcome,
+      predicted =  train_results$predicted),
+    weights = weights,
     coefs = train_results$coef,
+    loss_func_value = train_results$loss_func_value,
     performance = train_results$performance,
+    cross_validation = cross_validation,
     control = control)
 }
 
