@@ -1,83 +1,57 @@
 # ------------------------------------------------------------------------------
 # Training function
-banister_train <- function(predictors, outcome, weights = NULL, control = banister_control()) {
+banister_train <- function(predictors, outcome, control = banister_control()) {
 
-  coefs <- banister_make_coefs(predictors)
+  # Function that converts par to coef and returns predictions
+  predict_func <- function(par, predictors) {
 
-  objective_func <- function(par, predictors, outcome, weights, coefs, loss_func, link_func) {
+    # create coefs from predictors (to get the right format)
+    coefs <- banister_make_coefs(predictors)
 
     # Convert par to coefs again
     new_coefs <- banister_vector_to_coefs(values = par, coefs = coefs)
-    # Convert par back to coefs
-    new_coefs  <- banister_par_to_coefs(new_coefs )
+
+    # Convert optim coef back to true coefs
+    new_coefs  <- banister_par_to_coefs(new_coefs)
 
     model <- list(coefs = new_coefs, control = control)
     predicted <- banister_predict(model, predictors)
 
-    # Loss/Objective function to be returned to optimizer
-    loss_value <- loss_func(
-      obs = outcome,
-      pred = predicted,
-      weights = weights)
-
-    return(loss_value)
+    return(predicted)
   }
 
+  # -------------------------------------
+  # Get coefs format
+  coefs <- banister_make_coefs(predictors)
+
   # Prepare coefs to be pars (so they can be bounded)
-  par <- banister_coefs_to_par(coefs)
+  coefs <- banister_coefs_to_par(coefs)
   # Convert list to named vector
-  par <- banister_coefs_to_vector(par)
+  par <- banister_coefs_to_vector(coefs)
 
   # Create the lower bound (which are zeros)
-  lower_bounds <- rep(Inf, length(par))
-  upper_bounds <- rep(-Inf, length(par))
+  #lower_bounds <- rep(Inf, length(par))
+  #upper_bounds <- rep(-Inf, length(par))
 
-  # Optim function
-  model <- optimx::optimx(
+ # Call to optim function
+  opt_res <- dorem_optim(
     par = par,
-    fn = objective_func,
-    method = control$optim_method,
-    lower = lower_bounds,
-    upper = upper_bounds,
-    hessian = TRUE,
-    control = list(
-      trace = control$optim_trace,
-      maxit = control$optim_maxit),
-
-    # ---------------------
-    # ... parameters (extra)
-    # to be forwarded to objective_func
+    predict_func = predict_func,
     predictors = predictors,
     outcome = outcome,
-    weights = weights,
-    coefs = coefs,
-    loss_func = control$loss_func,
-    link_func = control$link_func
-    )
-
-  model_coefs <- stats::coef(model)
-  loss_func_value <- model$value
+    control = control)
 
   # Extract coefs
-  coefs <- banister_vector_to_coefs(model_coefs, coefs)
+  coefs <- banister_vector_to_coefs(opt_res$par, coefs)
   # Convert par back to true cofs
   coefs <- banister_par_to_coefs(coefs)
-
-  # calculate performance
-  model <- list(coefs = coefs, control = control)
-  predicted <- banister_predict(model, predictors)
-
-  performance = control$perf_func(
-    obs = outcome,
-    pred = predicted
-  )
 
   # List to be returned
   list(
     coefs = coefs,
-    loss_func_value = loss_func_value,
-    predicted = predicted,
-    performance = performance)
+    loss_func_value = opt_res$loss_func_value,
+    predicted = opt_res$predicted,
+    performance = opt_res$performance)
 }
 
 # ------------------------------------------------------------------------------
@@ -119,8 +93,8 @@ return(total_response)
 # --------------------------------------------------------------------------------------------
 banister_make_coefs <- function(predictors) {
   coefs <- purrr::map(predictors, function(...){list(
-    PTE_gain = 1, PTE_tau = 1,
-    NTE_gain = 1, NTE_tau = 1
+    PTE_gain = 1, PTE_tau = 14,
+    NTE_gain = 3, NTE_tau = 7
   )})
 
   c(intercept = 260, coefs)

@@ -14,6 +14,7 @@
 #' @param seed Will be explained
 #' @export
 dorem_control <- function(weights = NULL,
+                          na.rm = TRUE,
                           loss_func = function(obs, pred, weights, na.rm = TRUE) {
                             mean(weights*((pred - obs))^2, na.rm = na.rm)
                           },
@@ -59,6 +60,7 @@ dorem_control <- function(weights = NULL,
 
   list(
     weights = weights,
+    na.rm = na.rm,
     loss_func = loss_func,
     link_func = link_func,
     perf_func = perf_func,
