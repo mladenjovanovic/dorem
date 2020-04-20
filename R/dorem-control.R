@@ -15,11 +15,11 @@
 #' @export
 dorem_control <- function(weights = NULL,
                           na.rm = TRUE,
-                          loss_func = function(obs, pred, weights, na.rm = TRUE) {
+                          loss_func = function(obs, pred, weights, na.rm) {
                             mean(weights*((pred - obs))^2, na.rm = na.rm)
                           },
                           link_func = function(x) {x},
-                          perf_func = function(obs, pred, na.rm = TRUE) {
+                          perf_func = function(obs, pred, na.rm) {
 
                             meanDiff <- mean(pred - obs, na.rm = na.rm)
                             SDdiff <- stats::sd(pred - obs, na.rm = na.rm)
