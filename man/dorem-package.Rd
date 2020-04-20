@@ -14,7 +14,7 @@ Understanding the effects of training dose to training response
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/mladenjovanovic/dorem}
+  \item \url{https://dorem.net}
   \item Report bugs at \url{https://github.com/mladenjovanovic/dorem/issues}
 }
 

@@ -14,7 +14,7 @@ Description: Understanding the effects of training dose to training response
     (i.e., performance) is one of the major goals of sports science. 
     The goal of this package is to provide easy-to-use dose-response models
     commonly applied in understanding aforementioned relationships.
-URL: https://github.com/mladenjovanovic/dorem
+URL: https://dorem.net
 BugReports: https://github.com/mladenjovanovic/dorem/issues
 License: MIT + file LICENSE
 Encoding: UTF-8

@@ -5,13 +5,13 @@ citEntry(entry = "Manual",
   author       = personList(as.person("Mladen Jovanovic"), as.person("Benedict Stephens Hemingway")),
   note         = "R package version 0.0.0.9000",
   year         = "2020",
-  url          = "https://mladenjovanovic.github.io/dorem/",
+  url          = "https://dorem.net",
   doi          = "10.5281/zenodo.3757085",
 
   textVersion  =
   paste("Mladen Jovanovic, Benedict Stephens Hemingway (2020).",
         "dorem: Dose Response Modeling.",
         "R package version 0.0.0.9000.",
-        "url: https://mladenjovanovic.github.io/dorem/.",
+        "url: https://dorem.net.",
         "doi: 10.5281/zenodo.3757085")
 )
