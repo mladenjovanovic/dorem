@@ -13,7 +13,8 @@
 #' @param iter Will be explained
 #' @param seed Will be explained
 #' @export
-dorem_control <- function(loss_func = function(obs, pred, weights, na.rm = TRUE) {
+dorem_control <- function(weights = NULL,
+                          loss_func = function(obs, pred, weights, na.rm = TRUE) {
                             mean(weights*((pred - obs))^2, na.rm = na.rm)
                           },
                           link_func = function(x) {x},
@@ -57,6 +58,7 @@ dorem_control <- function(loss_func = function(obs, pred, weights, na.rm = TRUE)
   rlang::arg_match(optim_method, valid_optimization_methods())
 
   list(
+    weights = weights,
     loss_func = loss_func,
     link_func = link_func,
     perf_func = perf_func,

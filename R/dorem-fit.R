@@ -123,7 +123,7 @@ dorem_bridge <- function(processed, ...) {
 
 # ------------------------------------------------------------------------------
 # Implementation
-dorem_impl <- function(predictors, outcome, method = "banister", weights = NULL, control = dorem_control()) {
+dorem_impl <- function(predictors, outcome, method = "banister", control = dorem_control()) {
   # Check if method is correct
   rlang::arg_match(method, valid_dorem_methods())
 
@@ -137,12 +137,12 @@ dorem_impl <- function(predictors, outcome, method = "banister", weights = NULL,
   set.seed(control$seed)
 
   # Set up weights
-  if(is.null(weights)) {
-    weights <- rep(1, length(outcome))
+  if(is.null(control$weights)) {
+    control$weights <- rep(1, length(outcome))
   }
 
   # Perform model
-  train_results <- dorem_train_func(predictors, outcome, weights, control)
+  train_results <- dorem_train_func(predictors, outcome, control)
 
   cross_validation <- 0
 
@@ -151,7 +151,6 @@ dorem_impl <- function(predictors, outcome, method = "banister", weights = NULL,
     method = method,
     data = list(
       predictors = predictors,
-      weights = weights,
       outcome = outcome,
       predicted =  train_results$predicted),
     coefs = train_results$coef,
