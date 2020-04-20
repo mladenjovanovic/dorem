@@ -3,7 +3,7 @@ dorem_optim <- function(par, predict_func, predictors, outcome, control) {
 
   objective_func <- function(par, predict_func, predictors, outcome, weights, na.rm) {
 
-    pred <- predict_func(par, predictors)
+      pred <- predict_func(par, predictors)
 
       MSE <- mean((weights * (pred - outcome))^2, na.rm = na.rm)
 
