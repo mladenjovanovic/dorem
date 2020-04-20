@@ -47,7 +47,6 @@
 #'   geom_line() +
 #'   geom_point(aes(y = Test_5min_Power), color = "red") +
 #'   ylab("Test 5min Power")
-#'
 #' @export
 dorem <- function(x, ...) {
   UseMethod("dorem")
@@ -111,7 +110,6 @@ dorem_bridge <- function(processed, ...) {
   new_dorem(
     method = fit$method,
     data = fit$data,
-    weights = fit$weights,
     coefs = fit$coefs,
     loss_func_value = fit$loss_func_value,
     performance = fit$performance,
@@ -124,7 +122,7 @@ dorem_bridge <- function(processed, ...) {
 
 # ------------------------------------------------------------------------------
 # Implementation
-dorem_impl <- function(predictors, outcome, method = "banister", weights = NULL, control = dorem_control()) {
+dorem_impl <- function(predictors, outcome, method = "banister", control = dorem_control()) {
   # Check if method is correct
   rlang::arg_match(method, valid_dorem_methods())
 
@@ -138,12 +136,12 @@ dorem_impl <- function(predictors, outcome, method = "banister", weights = NULL,
   set.seed(control$seed)
 
   # Set up weights
-  if(is.null(weights)) {
-    weights <- rep(1, length(outcome))
+  if (is.null(control$weights)) {
+    control$weights <- rep(1, length(outcome))
   }
 
   # Perform model
-  train_results <- dorem_train_func(predictors, outcome, weights, control)
+  train_results <- dorem_train_func(predictors, outcome, control)
 
   cross_validation <- 0
 
@@ -153,13 +151,14 @@ dorem_impl <- function(predictors, outcome, method = "banister", weights = NULL,
     data = list(
       predictors = predictors,
       outcome = outcome,
-      predicted =  train_results$predicted),
-    weights = weights,
+      predicted = train_results$predicted
+    ),
     coefs = train_results$coef,
     loss_func_value = train_results$loss_func_value,
     performance = train_results$performance,
     cross_validation = cross_validation,
-    control = control)
+    control = train_results$control
+  )
 }
 
 

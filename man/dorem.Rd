@@ -72,5 +72,4 @@ ggplot(bike_score, aes(x = Day, y = pred)) +
   geom_line() +
   geom_point(aes(y = Test_5min_Power), color = "red") +
   ylab("Test 5min Power")
-
 }

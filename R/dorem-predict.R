@@ -34,7 +34,6 @@
 #'   geom_line() +
 #'   geom_point(aes(y = Test_5min_Power), color = "red") +
 #'   ylab("Test 5min Power")
-#'
 #' @export
 predict.dorem <- function(object, new_data, type = "numeric", ...) {
   forged <- hardhat::forge(new_data, object$blueprint)
@@ -50,7 +49,6 @@ valid_predict_types <- function() {
 # Bridge
 
 predict_dorem_bridge <- function(type, model, predictors) {
-
   predict_function <- get_predict_function(type)
   predictions <- predict_function(model, predictors)
 

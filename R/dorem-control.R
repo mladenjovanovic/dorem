@@ -13,19 +13,36 @@
 #' @param iter Will be explained
 #' @param seed Will be explained
 #' @export
-dorem_control <- function(loss_func = function(obs, pred, weights, na.rm = TRUE) {
-                            mean(weights*((pred - obs))^2, na.rm = na.rm)
+dorem_control <- function(weights = NULL,
+                          na.rm = TRUE,
+                          loss_func = function(obs, pred, weights, na.rm) {
+                            mean(weights * ((pred - obs))^2, na.rm = na.rm)
                           },
-                          link_func = function(x) {x},
-                          perf_func = function(obs, pred, na.rm = TRUE) {
+                          link_func = function(x) {
+                            x
+                          },
+                          perf_func = function(obs, pred, na.rm) {
+                            meanDiff <- mean(pred - obs, na.rm = na.rm)
+                            SDdiff <- stats::sd(pred - obs, na.rm = na.rm)
+                            RMSE <- sqrt(mean((pred - obs)^2, na.rm = na.rm))
+                            MAE <- mean(abs(pred - obs), na.rm = na.rm)
+                            minErr <- min((pred - obs), na.rm = na.rm)
+                            maxErr <- max((pred - obs), na.rm = na.rm)
+                            MAPE <- 100 * mean(abs((pred - obs) / obs), na.rm = na.rm)
+                            R_squared <- stats::summary.lm(stats::lm(pred ~ obs))$r.squared
+
                             list(
-                              RMSE = sqrt(mean((pred - obs)^2, na.rm = na.rm)),
-                              MAE =  mean(abs(pred - obs), na.rm = na.rm),
-                              maxAbsErr = max(abs(pred - obs), na.rm = na.rm),
-                              MAPE = 100 * mean(abs((pred - obs)/obs), na.rm = na.rm)
+                              meanDiff = meanDiff,
+                              SDdiff = SDdiff,
+                              RMSE = RMSE,
+                              MAE = MAE,
+                              minErr = minErr,
+                              maxErr = maxErr,
+                              MAPE = MAPE,
+                              R_squared = R_squared
                             )
                           },
-                          optim_method = ifelse(any(!is.null(coefs_lower), !is.null(coefs_upper)), "L-BFGS-B", "BFGS"),
+                          optim_method = valid_optimization_methods(),
                           optim_maxit = 1000,
                           optim_trace = FALSE,
 
@@ -36,10 +53,15 @@ dorem_control <- function(loss_func = function(obs, pred, weights, na.rm = TRUE)
                           cv_repeats = NULL,
                           cv_folds = NULL,
                           iter = FALSE,
-                          seed = round(stats::runif(1, 1, 10000))){
+                          seed = round(stats::runif(1, 1, 10000))) {
 
+  # Check if appropriate optim method is provided
+  optim_method <- optim_method[1]
+  rlang::arg_match(optim_method, valid_optimization_methods())
 
   list(
+    weights = weights,
+    na.rm = na.rm,
     loss_func = loss_func,
     link_func = link_func,
     perf_func = perf_func,
@@ -54,5 +76,10 @@ dorem_control <- function(loss_func = function(obs, pred, weights, na.rm = TRUE)
     iter = iter,
     seed = seed
   )
+}
 
+# ------------------------------------------------------------------------------
+# All valid optimization methods
+valid_optimization_methods <- function() {
+  c("L-BFGS-B", "DE", "CMA-ES")
 }

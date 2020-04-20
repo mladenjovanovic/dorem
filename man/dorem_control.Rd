@@ -5,15 +5,20 @@
 \title{Constructor for dorem control object}
 \usage{
 dorem_control(
-  loss_func = function(obs, pred, weights, na.rm = TRUE) {     mean(weights * ((pred -
-    obs))^2, na.rm = na.rm) },
+  weights = NULL,
+  na.rm = TRUE,
+  loss_func = function(obs, pred, weights, na.rm) {     mean(weights * ((pred - obs))^2,
+    na.rm = na.rm) },
   link_func = function(x) {     x },
-  perf_func = function(obs, pred, na.rm = TRUE) {     list(RMSE = sqrt(mean((pred -
-    obs)^2, na.rm = na.rm)), MAE = mean(abs(pred - obs), na.rm = na.rm), maxAbsErr =
-    max(abs(pred - obs), na.rm = na.rm), MAPE = 100 * mean(abs((pred - obs)/obs), na.rm =
-    na.rm)) },
-  optim_method = ifelse(any(!is.null(coefs_lower), !is.null(coefs_upper)), "L-BFGS-B",
-    "BFGS"),
+  perf_func = function(obs, pred, na.rm) {     meanDiff <- mean(pred - obs, na.rm =
+    na.rm)     SDdiff <- stats::sd(pred - obs, na.rm = na.rm)     RMSE <- sqrt(mean((pred
+    - obs)^2, na.rm = na.rm))     MAE <- mean(abs(pred - obs), na.rm = na.rm)     minErr
+    <- min((pred - obs), na.rm = na.rm)     maxErr <- max((pred - obs), na.rm = na.rm)    
+    MAPE <- 100 * mean(abs((pred - obs)/obs), na.rm = na.rm)     R_squared <-
+    stats::summary.lm(stats::lm(pred ~ obs))$r.squared     list(meanDiff = meanDiff,
+    SDdiff = SDdiff, RMSE = RMSE, MAE = MAE, minErr = minErr, maxErr = maxErr, MAPE =
+    MAPE, R_squared = R_squared) },
+  optim_method = valid_optimization_methods(),
   optim_maxit = 1000,
   optim_trace = FALSE,
   coefs_start = NULL,
