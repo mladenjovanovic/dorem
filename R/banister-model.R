@@ -29,16 +29,16 @@ banister_train <- function(predictors, outcome, weights = NULL, control = banist
   par <- banister_coefs_to_vector(par)
 
   # Create the lower bound (which are zeros)
-  lower_bounds <- rep(0, length(par))
-  upper_bounds <- rep(300, length(par))
+  lower_bounds <- rep(Inf, length(par))
+  upper_bounds <- rep(-Inf, length(par))
 
   # Optim function
   model <- optimx::optimx(
     par = par,
     fn = objective_func,
     method = control$optim_method,
-    #lower = NULL,
-    #upper = upper_bounds,
+    lower = lower_bounds,
+    upper = upper_bounds,
     hessian = TRUE,
     control = list(
       trace = control$optim_trace,
