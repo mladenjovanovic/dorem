@@ -8,5 +8,6 @@ new_dorem <- function(method, data, coefs, loss_func_value, performance, cross_v
     cross_validation = cross_validation,
     control = control,
     blueprint = blueprint,
-    class = "dorem")
+    class = "dorem"
+  )
 }

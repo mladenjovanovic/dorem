@@ -47,7 +47,6 @@
 #'   geom_line() +
 #'   geom_point(aes(y = Test_5min_Power), color = "red") +
 #'   ylab("Test 5min Power")
-#'
 #' @export
 dorem <- function(x, ...) {
   UseMethod("dorem")
@@ -137,7 +136,7 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
   set.seed(control$seed)
 
   # Set up weights
-  if(is.null(control$weights)) {
+  if (is.null(control$weights)) {
     control$weights <- rep(1, length(outcome))
   }
 
@@ -152,12 +151,14 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
     data = list(
       predictors = predictors,
       outcome = outcome,
-      predicted =  train_results$predicted),
+      predicted = train_results$predicted
+    ),
     coefs = train_results$coef,
     loss_func_value = train_results$loss_func_value,
     performance = train_results$performance,
     cross_validation = cross_validation,
-    control = train_results$control)
+    control = train_results$control
+  )
 }
 
 

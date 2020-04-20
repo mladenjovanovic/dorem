@@ -16,25 +16,26 @@
 dorem_control <- function(weights = NULL,
                           na.rm = TRUE,
                           loss_func = function(obs, pred, weights, na.rm) {
-                            mean(weights*((pred - obs))^2, na.rm = na.rm)
+                            mean(weights * ((pred - obs))^2, na.rm = na.rm)
                           },
-                          link_func = function(x) {x},
+                          link_func = function(x) {
+                            x
+                          },
                           perf_func = function(obs, pred, na.rm) {
-
                             meanDiff <- mean(pred - obs, na.rm = na.rm)
                             SDdiff <- stats::sd(pred - obs, na.rm = na.rm)
                             RMSE <- sqrt(mean((pred - obs)^2, na.rm = na.rm))
-                            MAE <-  mean(abs(pred - obs), na.rm = na.rm)
+                            MAE <- mean(abs(pred - obs), na.rm = na.rm)
                             minErr <- min((pred - obs), na.rm = na.rm)
                             maxErr <- max((pred - obs), na.rm = na.rm)
-                            MAPE <- 100 * mean(abs((pred - obs)/obs), na.rm = na.rm)
-                            R_squared <- stats::summary.lm(stats::lm(pred~obs))$r.squared
+                            MAPE <- 100 * mean(abs((pred - obs) / obs), na.rm = na.rm)
+                            R_squared <- stats::summary.lm(stats::lm(pred ~ obs))$r.squared
 
                             list(
                               meanDiff = meanDiff,
                               SDdiff = SDdiff,
                               RMSE = RMSE,
-                              MAE =  MAE,
+                              MAE = MAE,
                               minErr = minErr,
                               maxErr = maxErr,
                               MAPE = MAPE,
@@ -52,7 +53,7 @@ dorem_control <- function(weights = NULL,
                           cv_repeats = NULL,
                           cv_folds = NULL,
                           iter = FALSE,
-                          seed = round(stats::runif(1, 1, 10000))){
+                          seed = round(stats::runif(1, 1, 10000))) {
 
   # Check if appropriate optim method is provided
   optim_method <- optim_method[1]
@@ -75,7 +76,6 @@ dorem_control <- function(weights = NULL,
     iter = iter,
     seed = seed
   )
-
 }
 
 # ------------------------------------------------------------------------------

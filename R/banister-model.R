@@ -44,13 +44,14 @@ banister_train <- function(predictors, outcome, control = banister_control()) {
   control$coefs_lower <- banister_coefs_to_vector(coefs_lower)
   control$coefs_upper <- banister_coefs_to_vector(coefs_upper)
 
- # Call to optim function
+  # Call to optim function
   opt_res <- dorem_optim(
     par = control$coefs_start,
     predict_func = predict_func,
     predictors = predictors,
     outcome = outcome,
-    control = control)
+    control = control
+  )
 
   # Extract coefs
   coefs_result <- banister_vector_to_coefs(opt_res$par, coefs_start)
@@ -61,7 +62,8 @@ banister_train <- function(predictors, outcome, control = banister_control()) {
     loss_func_value = opt_res$loss_func_value,
     predicted = opt_res$predicted,
     performance = opt_res$performance,
-    control = control)
+    control = control
+  )
 }
 
 # ------------------------------------------------------------------------------
@@ -78,18 +80,19 @@ banister_predict <- function(model, predictors) {
     coefs,
     predictors,
     .f = function(.x, .y) {
-    # Function to calculate rolling training effects
-    # See Clarke DC, Skiba PF. 2013. <DOI: 10.1152/advan.00078.2011> for more info
+      # Function to calculate rolling training effects
+      # See Clarke DC, Skiba PF. 2013. <DOI: 10.1152/advan.00078.2011> for more info
 
-    effect_func <- function(prev, current, tau) {
-      (prev * exp(-1/tau) + current)
+      effect_func <- function(prev, current, tau) {
+        (prev * exp(-1 / tau) + current)
+      }
+
+      PTE <- .x$PTE_gain * purrr::accumulate(.y[[1]], effect_func, tau = .x$PTE_tau)
+      NTE <- .x$NTE_gain * purrr::accumulate(.y[[1]], effect_func, tau = .x$NTE_tau)
+
+      return(PTE - NTE)
     }
-
-    PTE <- .x$PTE_gain * purrr::accumulate(.y[[1]], effect_func, tau = .x$PTE_tau)
-    NTE <- .x$NTE_gain * purrr::accumulate(.y[[1]], effect_func, tau = .x$NTE_tau)
-
-    return(PTE - NTE)
-    })
+  )
 
   # Combine training responses
   total_response <- intercept + purrr::pmap_dbl(training_responses, sum)
@@ -106,39 +109,47 @@ banister_predict <- function(model, predictors) {
 # The following function deal with coefs and their conversion to par
 # --------------------------------------------------------------------------------------------
 banister_make_coefs <- function(predictors) {
-  coefs <- purrr::map(predictors, function(...){list(
-    PTE_gain = NA, PTE_tau = NA,
-    NTE_gain = NA, NTE_tau = NA
-  )})
+  coefs <- purrr::map(predictors, function(...) {
+    list(
+      PTE_gain = NA, PTE_tau = NA,
+      NTE_gain = NA, NTE_tau = NA
+    )
+  })
 
   c(intercept = NA, coefs)
 }
 
 banister_coefs_start <- function(predictors, outcome, na.rm = TRUE) {
-  coefs <- purrr::map(predictors, function(...){list(
-    PTE_gain = 1, PTE_tau = 21,
-    NTE_gain = 3, NTE_tau = 7
-  )})
+  coefs <- purrr::map(predictors, function(...) {
+    list(
+      PTE_gain = 1, PTE_tau = 21,
+      NTE_gain = 3, NTE_tau = 7
+    )
+  })
 
   c(intercept = min(outcome, na.rm = na.rm), coefs)
 }
 
 # --------------------------------------------------------------------------------------------
 banister_coefs_lower <- function(predictors, outcome, na.rm = TRUE) {
-  coefs <- purrr::map(predictors, function(...){list(
-    PTE_gain = 0, PTE_tau = 0,
-    NTE_gain = 0, NTE_tau = 0
-  )})
+  coefs <- purrr::map(predictors, function(...) {
+    list(
+      PTE_gain = 0, PTE_tau = 0,
+      NTE_gain = 0, NTE_tau = 0
+    )
+  })
 
   c(intercept = 0, coefs)
 }
 
 # --------------------------------------------------------------------------------------------
 banister_coefs_upper <- function(predictors, outcome, na.rm = TRUE) {
-  coefs <- purrr::map(predictors, function(...){list(
-    PTE_gain = Inf, PTE_tau = 300,
-    NTE_gain = Inf, NTE_tau = 300
-  )})
+  coefs <- purrr::map(predictors, function(...) {
+    list(
+      PTE_gain = Inf, PTE_tau = 300,
+      NTE_gain = Inf, NTE_tau = 300
+    )
+  })
 
   c(intercept = max(outcome, na.rm = na.rm), coefs)
 }
@@ -158,10 +169,10 @@ banister_vector_to_coefs <- function(values, coefs) {
   n_predictors <- length(coefs)
 
   for (i in seq(2, n_predictors)) {
-    coefs_new[[i]]$PTE_gain = values[[1 + (i-2) * 4 + 1]]
-    coefs_new[[i]]$PTE_tau = values[[1 + (i-2) * 4 + 2]]
-    coefs_new[[i]]$NTE_gain = values[[1 + (i-2) * 4 + 3]]
-    coefs_new[[i]]$NTE_tau = values[[1 + (i-2) * 4 + 4]]
+    coefs_new[[i]]$PTE_gain <- values[[1 + (i - 2) * 4 + 1]]
+    coefs_new[[i]]$PTE_tau <- values[[1 + (i - 2) * 4 + 2]]
+    coefs_new[[i]]$NTE_gain <- values[[1 + (i - 2) * 4 + 3]]
+    coefs_new[[i]]$NTE_tau <- values[[1 + (i - 2) * 4 + 4]]
   }
 
   return(coefs_new)
