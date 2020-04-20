@@ -1,26 +1,44 @@
 # Function that is called for optimization
 dorem_optim <- function(par, predict_func, predictors, outcome, control) {
-
   objective_func <- function(par, predict_func, predictors, outcome, weights, na.rm) {
+    stdev <- par[[1]]
+    par <- par[-1]
 
+    stdev <- abs(stdev)
+
+    # Get predictions
     pred <- predict_func(par, predictors)
 
-      MSE <- mean((weights * (pred - outcome))^2, na.rm = na.rm)
+    # Calculate log likelihood
+    LL <- sum(
+      stats::dnorm(
+        outcome,
+        mean = pred,
+        sd = stdev,
+        log = TRUE
+      ),
+      na.rm = na.rm
+    )
 
-      return(MSE)
+    return(-LL)
   }
+
+  # Add another param at the start with indicated stdev
+  initial_stdev <- sd(outcome, na.rm = control$na.rm)*0.2
+  par <- c(initial_stdev, par)
 
   # L-BFGS-B method
   model <- optimx::optimx(
     par = par,
     fn = objective_func,
     method = control$optim_method,
-    #lower = lower_bounds,
-    #upper = upper_bounds,
+    lower_bounds <- rep(0, length(par)),
+    upper = rep(Inf, length(par)),
     hessian = TRUE,
     control = list(
       trace = control$optim_trace,
-      maxit = control$optim_maxit),
+      maxit = control$optim_maxit
+    ),
 
     # ---------------------
     # ... parameters (extra)
@@ -32,12 +50,15 @@ dorem_optim <- function(par, predict_func, predictors, outcome, control) {
     na.rm = control$na.rm
   )
 
+  stdev <- par[[1]]
+  par <- par[-1]
+
   par <- stats::coef(model)
   loss_func_value <- model$value
   predicted <- predict_func(par, predictors)
 
   # Generate performance metrics
-  performance = control$perf_func(
+  performance <- control$perf_func(
     obs = outcome,
     pred = predicted
   )
@@ -47,5 +68,6 @@ dorem_optim <- function(par, predict_func, predictors, outcome, control) {
     par = par,
     loss_func_value = loss_func_value,
     predicted = predicted,
-    performance = performance)
+    performance = performance
+  )
 }
