@@ -75,8 +75,9 @@ banister_predict <- function(model, predictors) {
   intercept <- coefs[[1]]
   coefs[[1]] <- NULL
 
+  predictors <- as.list(predictors)
   # Function to go over predictors and coefs
-  training_responses <- purrr::map(
+  training_responses <- purrr::map2(
     coefs,
     predictors,
     .f = function(.x, .y) {
@@ -87,8 +88,8 @@ banister_predict <- function(model, predictors) {
         (prev * exp(-1 / tau) + current)
       }
 
-      PTE <- .x$PTE_gain * purrr::accumulate(.y[[1]], effect_func, tau = .x$PTE_tau)
-      NTE <- .x$NTE_gain * purrr::accumulate(.y[[1]], effect_func, tau = .x$NTE_tau)
+      PTE <- .x$PTE_gain * purrr::accumulate(.y, effect_func, tau = .x$PTE_tau)
+      NTE <- .x$NTE_gain * purrr::accumulate(.y, effect_func, tau = .x$NTE_tau)
 
       return(PTE - NTE)
     }
@@ -146,8 +147,8 @@ banister_coefs_lower <- function(predictors, outcome, na.rm = TRUE) {
 banister_coefs_upper <- function(predictors, outcome, na.rm = TRUE) {
   coefs <- purrr::map(predictors, function(...) {
     list(
-      PTE_gain = Inf, PTE_tau = 300,
-      NTE_gain = Inf, NTE_tau = 300
+      PTE_gain = 10000, PTE_tau = 300,
+      NTE_gain = 10000, NTE_tau = 300
     )
   })
 
