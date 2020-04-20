@@ -23,7 +23,6 @@ dorem_optim <- function(par, predict_func, predictors, outcome, control) {
       method = control$optim_method,
       lower = control$coefs_lower,
       upper = control$coefs_upper,
-      hessian = TRUE,
       control = list(
         trace = control$optim_trace,
         maxit = control$optim_maxit
