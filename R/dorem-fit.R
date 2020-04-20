@@ -157,7 +157,7 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
     loss_func_value = train_results$loss_func_value,
     performance = train_results$performance,
     cross_validation = cross_validation,
-    control = control)
+    control = train_results$control)
 }
 
 
