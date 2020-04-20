@@ -111,7 +111,6 @@ dorem_bridge <- function(processed, ...) {
   new_dorem(
     method = fit$method,
     data = fit$data,
-    weights = fit$weights,
     coefs = fit$coefs,
     loss_func_value = fit$loss_func_value,
     performance = fit$performance,
@@ -152,9 +151,9 @@ dorem_impl <- function(predictors, outcome, method = "banister", weights = NULL,
     method = method,
     data = list(
       predictors = predictors,
+      weights = weights,
       outcome = outcome,
       predicted =  train_results$predicted),
-    weights = weights,
     coefs = train_results$coef,
     loss_func_value = train_results$loss_func_value,
     performance = train_results$performance,
