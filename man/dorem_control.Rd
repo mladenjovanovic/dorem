@@ -27,10 +27,14 @@ dorem_control(
   cv_repeats = NULL,
   cv_folds = NULL,
   iter = FALSE,
-  seed = round(stats::runif(1, 1, 10000))
+  seed = round(stats::runif(1, 1, 10000), 0)
 )
 }
 \arguments{
+\item{weights}{Will be explained}
+
+\item{na.rm}{Will be explained}
+
 \item{loss_func}{Will be explained}
 
 \item{link_func}{Will be explained}

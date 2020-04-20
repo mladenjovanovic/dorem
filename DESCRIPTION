@@ -26,7 +26,8 @@ Imports:
     stats,
     purrr,
     optimx,
-    NMOF
+    cmaes,
+    DEoptim
 Suggests: 
     recipes,
     tidyverse

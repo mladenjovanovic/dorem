@@ -6,6 +6,8 @@
 \alias{dorem-package}
 \title{dorem: Dose Response Modeling}
 \description{
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+
 Understanding the effects of training dose to training response
     (i.e., performance) is one of the major goals of sports science. 
     The goal of this package is to provide easy-to-use dose-response models

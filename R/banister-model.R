@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------------------
 # Training function
-banister_train <- function(predictors, outcome, control = banister_control()) {
+banister_train <- function(predictors, outcome, control = dorem_control()) {
 
   # Function that converts par to coef and returns predictions
   predict_func <- function(par, predictors) {

@@ -8,6 +8,13 @@
 
 <title>Constructor for dorem control object — dorem_control • dorem</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -37,6 +44,7 @@
 
 <meta property="og:title" content="Constructor for dorem control object — dorem_control" />
 <meta property="og:description" content="Constructor for dorem control object" />
+<meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -109,30 +117,43 @@
     <p>Constructor for dorem control object</p>
     </div>
 
-    <pre class="usage"><span class='fu'>dorem_control</span>(
-  <span class='kw'>loss_func</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>obs</span>, <span class='no'>pred</span>, <span class='no'>weights</span>, <span class='no'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) {     <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>weights</span> * ((<span class='no'>pred</span> -
-    <span class='no'>obs</span>))^<span class='fl'>2</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>na.rm</span>) },
-  <span class='kw'>link_func</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) {     <span class='no'>x</span> },
-  <span class='kw'>perf_func</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>obs</span>, <span class='no'>pred</span>, <span class='no'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) {     <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>RMSE</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>((<span class='no'>pred</span> -
-    <span class='no'>obs</span>)^<span class='fl'>2</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>na.rm</span>)), <span class='kw'>MAE</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='no'>pred</span> - <span class='no'>obs</span>), <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>na.rm</span>), <span class='kw'>maxAbsErr</span> <span class='kw'>=</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='no'>pred</span> - <span class='no'>obs</span>), <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>na.rm</span>), <span class='kw'>MAPE</span> <span class='kw'>=</span> <span class='fl'>100</span> * <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>((<span class='no'>pred</span> - <span class='no'>obs</span>)/<span class='no'>obs</span>), <span class='kw'>na.rm</span> <span class='kw'>=</span>
-    <span class='no'>na.rm</span>)) },
-  <span class='kw'>optim_method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/any.html'>any</a></span>(!<span class='fu'><a href='https://rdrr.io/r/base/NULL.html'>is.null</a></span>(<span class='no'>coefs_lower</span>), !<span class='fu'><a href='https://rdrr.io/r/base/NULL.html'>is.null</a></span>(<span class='no'>coefs_upper</span>)), <span class='st'>"L-BFGS-B"</span>,
-    <span class='st'>"BFGS"</span>),
-  <span class='kw'>optim_maxit</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>optim_trace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>coefs_start</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>coefs_lower</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>coefs_upper</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>cv_repeats</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>cv_folds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>10000</span>))
+    <pre class="usage">dorem_control(
+  weights = NULL,
+  na.rm = TRUE,
+  loss_func = function(obs, pred, weights, na.rm) {     mean(weights * ((pred - obs))^2,
+    na.rm = na.rm) },
+  link_func = function(x) {     x },
+  perf_func = function(obs, pred, na.rm) {     meanDiff <- mean(pred - obs, na.rm =
+    na.rm)     SDdiff <- stats::sd(pred - obs, na.rm = na.rm)     RMSE <- sqrt(mean((pred
+    - obs)^2, na.rm = na.rm))     MAE <- mean(abs(pred - obs), na.rm = na.rm)     minErr
+    <- min((pred - obs), na.rm = na.rm)     maxErr <- max((pred - obs), na.rm = na.rm)    
+    MAPE <- 100 * mean(abs((pred - obs)/obs), na.rm = na.rm)     R_squared <-
+    stats::summary.lm(stats::lm(pred ~ obs))$r.squared     list(meanDiff = meanDiff,
+    SDdiff = SDdiff, RMSE = RMSE, MAE = MAE, minErr = minErr, maxErr = maxErr, MAPE =
+    MAPE, R_squared = R_squared) },
+  optim_method = valid_optimization_methods(),
+  optim_maxit = 1000,
+  optim_trace = FALSE,
+  coefs_start = NULL,
+  coefs_lower = NULL,
+  coefs_upper = NULL,
+  cv_repeats = NULL,
+  cv_folds = NULL,
+  iter = FALSE,
+  seed = round(stats::runif(1, 1, 10000), 0)
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>weights</th>
+      <td><p>Will be explained</p></td>
+    </tr>
+    <tr>
+      <th>na.rm</th>
+      <td><p>Will be explained</p></td>
+    </tr>
     <tr>
       <th>loss_func</th>
       <td><p>Will be explained</p></td>

@@ -1,4 +1,7 @@
 #' Constructor for dorem control object
+#'
+#' @param weights Will be explained
+#' @param na.rm Will be explained
 #' @param loss_func Will be explained
 #' @param link_func Will be explained
 #' @param perf_func Will be explained
@@ -53,7 +56,7 @@ dorem_control <- function(weights = NULL,
                           cv_repeats = NULL,
                           cv_folds = NULL,
                           iter = FALSE,
-                          seed = round(stats::runif(1, 1, 10000))) {
+                          seed = round(stats::runif(1, 1, 10000), 0)) {
 
   # Check if appropriate optim method is provided
   optim_method <- optim_method[1]

@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# dorem
+# dorem <img src="man/figures/logo.png" align="right" width="200" />
 
 <!-- badges: start -->
 
