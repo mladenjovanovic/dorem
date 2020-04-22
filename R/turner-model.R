@@ -82,18 +82,17 @@ turner_predict <- function(model, predictors) {
     coefs,
     predictors,
     .f = function(.x, .y) {
+
       # Function to calculate rolling training effects
       effect_func <- function(prev, current, tau, alpha) {
-         (-1/tau * prev^alpha) + current
+        (-1/tau * sign(prev)*(abs(prev)^alpha)) + current
       }
-
       PTE <- .x$PTE_gain * purrr::accumulate(.y, effect_func, tau = .x$PTE_tau, alpha = .x$PTE_alpha)
       NTE <- .x$NTE_gain * purrr::accumulate(.y, effect_func, tau = .x$NTE_tau, alpha = .x$NTE_alpha)
 
       return(PTE - NTE)
     }
   )
-
   # Combine training responses
   total_response <- intercept + purrr::pmap_dbl(training_responses, sum)
 
@@ -171,7 +170,7 @@ turner_vector_to_coefs <- function(values, coefs) {
   for (i in seq(2, n_predictors)) {
     coefs_new[[i]]$PTE_gain <- values[[1 + (i - 2) * 6 + 1]]
     coefs_new[[i]]$PTE_tau <- values[[1 + (i - 2) * 6 + 2]]
-    coefs_new[[i]]$NTE_alpha <- values[[1 + (i - 2) * 6 + 3]]
+    coefs_new[[i]]$PTE_alpha <- values[[1 + (i - 2) * 6 + 3]]
     coefs_new[[i]]$NTE_gain <- values[[1 + (i - 2) * 6 + 4]]
     coefs_new[[i]]$NTE_tau <- values[[1 + (i - 2) * 6 + 5]]
     coefs_new[[i]]$NTE_alpha <- values[[1 + (i - 2) * 6 + 6]]

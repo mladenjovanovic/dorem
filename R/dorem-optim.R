@@ -4,7 +4,6 @@ dorem_optim <- function(par, predict_func, predictors, outcome, control) {
   objective_func <- function(par, predict_func, predictors, outcome, weights, loss_func, na.rm) {
     # Get the model predictions
     pred <- predict_func(par, predictors)
-
     # Calculate the loss
     loss <- loss_func(
       obs = outcome,
@@ -12,10 +11,8 @@ dorem_optim <- function(par, predict_func, predictors, outcome, control) {
       weights = weights,
       na.rm = na.rm
     )
-
     return(loss)
   }
-
   # =========================================
   # L-BFGS-B method
   if (control$optim_method == "L-BFGS-B") {
@@ -23,8 +20,8 @@ dorem_optim <- function(par, predict_func, predictors, outcome, control) {
       par = par,
       fn = objective_func,
       method = "L-BFGS-B",
-      lower = control$coefs_lower,
-      upper = control$coefs_upper,
+      #lower = control$coefs_lower,
+      #upper = control$coefs_upper,
       control = list(
         trace = control$optim_trace,
         maxit = control$optim_maxit
