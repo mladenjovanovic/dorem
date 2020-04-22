@@ -47,6 +47,7 @@ dorem_control <- function(weights = NULL,
                           },
                           optim_method = valid_optimization_methods(),
                           optim_maxit = 1000,
+                          optim_VTR = -Inf,
                           optim_trace = FALSE,
 
                           coefs_start = NULL,
@@ -55,6 +56,7 @@ dorem_control <- function(weights = NULL,
 
                           cv_repeats = NULL,
                           cv_folds = NULL,
+
                           iter = FALSE,
                           seed = round(stats::runif(1, 1, 10000), 0)) {
 
@@ -70,6 +72,7 @@ dorem_control <- function(weights = NULL,
     perf_func = perf_func,
     optim_method = optim_method,
     optim_maxit = optim_maxit,
+    optim_VTR = optim_VTR,
     optim_trace = optim_trace,
     coefs_start = coefs_start,
     coefs_lower = coefs_lower,
