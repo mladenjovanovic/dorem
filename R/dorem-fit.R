@@ -114,6 +114,7 @@ dorem_bridge <- function(processed, ...) {
     loss_func_value = fit$loss_func_value,
     performance = fit$performance,
     cross_validation = fit$cross_validation,
+    shuffle = fit$shuffle,
     control = fit$control,
     blueprint = processed$blueprint
   )
@@ -123,6 +124,9 @@ dorem_bridge <- function(processed, ...) {
 # ------------------------------------------------------------------------------
 # Implementation
 dorem_impl <- function(predictors, outcome, method = "banister", control = dorem_control()) {
+  # Pull out iter control
+  iter <- control$iter
+
   # Check if method is correct
   rlang::arg_match(method, valid_dorem_methods())
 
@@ -132,6 +136,10 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
     banister = banister_train
   )
 
+  if (iter) {
+    message(paste("Performing", method, "method using", control$optim_method, "optimization"))
+  }
+
   # Set-up seed for reproducibility
   set.seed(control$seed)
 
@@ -140,10 +148,52 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
     control$weights <- rep(1, length(outcome))
   }
 
-  # Perform model
+  # ===================================
+  # Train model
+  if (iter) {
+    message("Training the model...", appendLF = FALSE)
+  }
   train_results <- dorem_train_func(predictors, outcome, control)
+  if (iter) {
+    message("done!")
+  }
+  # Cross validation
+  cross_validation <- NA
 
-  cross_validation <- 0
+
+  # ===================================
+  # Shuffle
+  shuffle <- NA
+  if (control$shuffle == TRUE) {
+    if (iter) {
+      message("Training the model using shuffled predictors...", appendLF = FALSE)
+    }
+
+    # Shuffle the predictors
+    rows <- sample(nrow(predictors))
+    predictors <- predictors[rows, ]
+
+    shuffle_results <- dorem_train_func(predictors, outcome, control)
+
+    shuffle <- list(
+      data = list(
+        predictors = predictors,
+        outcome = outcome,
+        predicted = shuffle_results$predicted
+      ),
+      coefs = shuffle_results$coef,
+      loss_func_value = shuffle_results$loss_func_value,
+      performance = shuffle_results$performance
+    )
+
+    if (iter) {
+      message("done!")
+    }
+  } # End of Shuffle
+
+  if (iter) {
+    message("Finished!")
+  }
 
   # Return object
   list(
@@ -157,6 +207,7 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
     loss_func_value = train_results$loss_func_value,
     performance = train_results$performance,
     cross_validation = cross_validation,
+    shuffle = shuffle,
     control = train_results$control
   )
 }

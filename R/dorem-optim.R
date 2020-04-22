@@ -28,7 +28,7 @@ dorem_optim <- function(par, predict_func, predictors, outcome, control) {
       upper = control$coefs_upper,
       control = list(
         trace = control$optim_trace,
-        maxit = control$optim_maxit,
+        maxit = control$optim_maxit
         #abstol = control$optim_VTR
       ),
 
