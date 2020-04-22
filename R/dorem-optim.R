@@ -1,5 +1,6 @@
 # Function that is called for optimization
 dorem_optim <- function(par, predict_func, predictors, outcome, control) {
+
   objective_func <- function(par, predict_func, predictors, outcome, weights, loss_func, na.rm) {
     # Get the model predictions
     pred <- predict_func(par, predictors)

@@ -122,14 +122,17 @@ dorem_bridge <- function(processed, ...) {
 
 # ------------------------------------------------------------------------------
 # Implementation
-dorem_impl <- function(predictors, outcome, method = "banister", control = dorem_control()) {
+dorem_impl <- function(predictors, outcome, method = valid_dorem_methods(), control = dorem_control()) {
   # Check if method is correct
+  method <- method[1]
+
   rlang::arg_match(method, valid_dorem_methods())
 
   # Select appropriate train function based on the method employed
   dorem_train_func <- switch(
     method,
-    banister = banister_train
+    banister = banister_train,
+    turner = turner_train,
   )
 
   # Set-up seed for reproducibility
@@ -165,5 +168,5 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
 # ------------------------------------------------------------------------------
 # All valid dorem methods
 valid_dorem_methods <- function() {
-  c("banister")
+  c("banister", "turner")
 }
