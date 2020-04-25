@@ -2,30 +2,32 @@
 % Please edit documentation in R/dorem-control.R
 \name{dorem_control}
 \alias{dorem_control}
-\title{Constructor for dorem control object}
+\title{Constructor for the \code{dorem} control object}
 \usage{
 dorem_control(
   weights = NULL,
   na.rm = TRUE,
-  loss_func = function(obs, pred, weights, na.rm) {     mean(weights * ((pred - obs))^2,
-    na.rm = na.rm) },
+  loss_func = function(obs, pred, weights, na.rm) {     mean(weights * ((pred -
+    obs))^2, na.rm = na.rm) },
   link_func = function(x) {     x },
   perf_func = function(obs, pred, na.rm) {     meanDiff <- mean(pred - obs, na.rm =
     na.rm)     SDdiff <- stats::sd(pred - obs, na.rm = na.rm)     RMSE <- sqrt(mean((pred
     - obs)^2, na.rm = na.rm))     MAE <- mean(abs(pred - obs), na.rm = na.rm)     minErr
-    <- min((pred - obs), na.rm = na.rm)     maxErr <- max((pred - obs), na.rm = na.rm)    
-    MAPE <- 100 * mean(abs((pred - obs)/obs), na.rm = na.rm)     R_squared <-
-    stats::summary.lm(stats::lm(pred ~ obs))$r.squared     list(meanDiff = meanDiff,
-    SDdiff = SDdiff, RMSE = RMSE, MAE = MAE, minErr = minErr, maxErr = maxErr, MAPE =
-    MAPE, R_squared = R_squared) },
+    <- min((pred - obs), na.rm = na.rm)     maxErr <- max((pred - obs), na.rm = na.rm)   
+     MAPE <- 100 * mean(abs((pred - obs)/obs), na.rm = na.rm)     R_squared <-
+    stats::summary.lm(stats::lm(pred ~ obs))$r.squared     performance <- list(meanDiff =
+    meanDiff, SDdiff = SDdiff, RMSE = RMSE, MAE = MAE, minErr = minErr, maxErr = maxErr,
+    MAPE = MAPE, R_squared = R_squared)     unlist(performance) },
   optim_method = valid_optimization_methods(),
   optim_maxit = 1000,
+  optim_VTR = -Inf,
   optim_trace = FALSE,
   coefs_start = NULL,
   coefs_lower = NULL,
   coefs_upper = NULL,
   cv_repeats = NULL,
   cv_folds = NULL,
+  shuffle = FALSE,
   iter = FALSE,
   seed = round(stats::runif(1, 1, 10000), 0)
 )
@@ -57,10 +59,12 @@ dorem_control(
 
 \item{cv_folds}{Will be explained}
 
+\item{shuffle}{Will be explained}
+
 \item{iter}{Will be explained}
 
 \item{seed}{Will be explained}
 }
 \description{
-Constructor for dorem control object
+Constructor for the \code{dorem} control object
 }

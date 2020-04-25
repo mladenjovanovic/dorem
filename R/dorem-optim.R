@@ -28,8 +28,8 @@ dorem_optim <- function(par, predict_func, predictors, outcome, control) {
       upper = control$coefs_upper,
       control = list(
         trace = control$optim_trace,
-        maxit = control$optim_maxit,
-        #abstol = control$optim_VTR
+        maxit = control$optim_maxit
+        # abstol = control$optim_VTR
       ),
 
       # ---------------------
@@ -95,9 +95,9 @@ dorem_optim <- function(par, predict_func, predictors, outcome, control) {
         trace = control$optim_trace,
         itermax = control$optim_maxit,
         VTR = control$optim_VTR,
-        #strategy = 2,
-        #NP = 300,
-        #CR = 0.9, F = 0.9
+        # strategy = 2,
+        # NP = 300,
+        # CR = 0.9, F = 0.9
       ),
 
       # ---------------------
