@@ -158,7 +158,7 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
 
   # ===================================
   # Cross validation
-  cross_validation <- NA
+  cross_validation <- list(NULL)
 
   if (!is.null(control$cv_folds)) {
     # If there is no repeats defined then assume 1
@@ -343,7 +343,8 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
 
   # ===================================
   # Shuffle
-  shuffle <- NA
+  shuffle <- list(NULL)
+
   if (control$shuffle == TRUE) {
     if (iter) {
       message("Training the model using shuffled predictors...")

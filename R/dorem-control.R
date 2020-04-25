@@ -19,6 +19,19 @@
 #' @param iter Will be explained
 #' @param seed Will be explained
 #' @export
+#' @example
+#' data("bike_score")
+#'
+#' banister_model <- dorem(
+#'   Test_5min_Power ~ BikeScore,
+#'   bike_score,
+#'   method = "banister",
+#'   control = dorem_control(
+#'         cv_folds = 3,
+#'         cv_repeats = 5,
+#'         shuffle = TRUE
+#'   )
+#' )
 dorem_control <- function(weights = NULL,
                           na.rm = TRUE,
                           loss_func = function(obs, pred, weights, na.rm) {

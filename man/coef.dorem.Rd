@@ -4,10 +4,12 @@
 \alias{coef.dorem}
 \title{S3 method for extracting model coefficients}
 \usage{
-\method{coef}{dorem}(object)
+\method{coef}{dorem}(object, ...)
 }
 \arguments{
 \item{object}{Object of class \code{dorem}}
+
+\item{...}{Extra arguments}
 }
 \description{
 S3 method for extracting model coefficients

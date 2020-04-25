@@ -29,9 +29,12 @@ Imports:
     cmaes,
     DEoptim,
     caret,
-    NMOF
+    NMOF,
+    tidyverse,
+    magrittr,
+    dplyr,
+    ggplot2
 Suggests: 
-    recipes,
-    tidyverse
+    recipes
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
