@@ -159,16 +159,18 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
   # Cross validation
   cross_validation <- NA
 
-  if(!is.null(control$cv_folds)) {
+  if (!is.null(control$cv_folds)) {
     # If there is no repeats defined then assume 1
-    if(is.null(control$cv_repeats)) {
+    if (is.null(control$cv_repeats)) {
       control$cv_repeats <- 1
       train_results$control$cv_repeats <- 1
     }
 
     if (iter) {
-      message(paste("Cross-validating the model using", control$cv_repeats,
-                    "repeats of", control$cv_folds, "folds"))
+      message(paste(
+        "Cross-validating the model using", control$cv_repeats,
+        "repeats of", control$cv_folds, "folds"
+      ))
     }
 
     cv_outcome_index <- seq(1, length(outcome))
@@ -225,7 +227,8 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
             predictors = predictors,
             outcome_index = cv_test_index,
             outcome = cv_test_outcome,
-            predicted = cv_train_results$predicted)
+            predicted = cv_train_results$predicted
+          )
         ),
         coefs = cv_train_results$coef,
         loss_func_value = cv_train_results$loss_func_value,
@@ -236,13 +239,14 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
       ))
     })
 
-   # Create a overall test data
+    # Create a overall test data
     training_data <- purrr::map2_df(cv_results, names(cv_results), function(cv_folds, fold_name) {
       data.frame(
         fold = fold_name,
         outcome = cv_folds$data$training$outcome,
         predicted = cv_folds$data$training$predicted,
-        stringsAsFactors = FALSE)
+        stringsAsFactors = FALSE
+      )
     })
 
     training_performance <- control$perf_func(
@@ -256,8 +260,9 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
         fold = fold_name,
         outcome = cv_folds$data$testing$outcome,
         predicted = cv_folds$data$testing$predicted,
-        stringsAsFactors = FALSE)
-      })
+        stringsAsFactors = FALSE
+      )
+    })
 
     testing_performance <- control$perf_func(
       obs = testing_data$outcome,
@@ -270,7 +275,8 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
         fold = fold_name,
         coefs = names(unlist(cv_folds$coefs)),
         value = unlist(cv_folds$coefs),
-        stringsAsFactors = FALSE)
+        stringsAsFactors = FALSE
+      )
     })
 
     cv_coefs$coefs <- factor(
@@ -283,7 +289,8 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
         fold = fold_name,
         metric = names(cv_folds$performance$training),
         value = cv_folds$performance$training,
-        stringsAsFactors = FALSE)
+        stringsAsFactors = FALSE
+      )
     })
 
     cv_performance_training$metric <- factor(
@@ -296,7 +303,8 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
         fold = fold_name,
         metric = names(cv_folds$performance$testing),
         value = cv_folds$performance$testing,
-        stringsAsFactors = FALSE)
+        stringsAsFactors = FALSE
+      )
     })
 
     cv_performance_testing$metric <- factor(
@@ -308,7 +316,8 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
       data.frame(
         fold = fold_name,
         loss_func_value = cv_folds$loss_func_value,
-        stringsAsFactors = FALSE)
+        stringsAsFactors = FALSE
+      )
     })
 
     # The returned list
