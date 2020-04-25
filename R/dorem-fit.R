@@ -163,7 +163,7 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
     # If there is no repeats defined then assume 1
     if(is.null(control$cv_repeats)) {
       control$cv_repeats <- 1
-      train_results$control <- 1
+      train_results$control$cv_repeats <- 1
     }
 
     if (iter) {
@@ -204,6 +204,8 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
       # Train
       cv_train_results <- dorem_train_func(predictors, cv_train_outcome, control)
 
+      train_performance <- cv_train_results$performance
+
       # Test
       test_performance <- control$perf_func(
         obs = cv_test_outcome,
@@ -213,20 +215,120 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
 
       return(list(
         data = list(
-          train_predictors = predictors,
-          train_outcome = cv_train_outcome,
-          train_predicted = cv_train_results$predicted,
-          test_predictors = predictors,
-          test_outcome = cv_test_outcome,
-          test_predicted = cv_train_results$predicted
+          training = list(
+            predictors = predictors,
+            outcome_index = cv_train_index,
+            outcome = cv_train_outcome,
+            predicted = cv_train_results$predicted
+          ),
+          testing = list(
+            predictors = predictors,
+            outcome_index = cv_test_index,
+            outcome = cv_test_outcome,
+            predicted = cv_train_results$predicted)
         ),
         coefs = cv_train_results$coef,
         loss_func_value = cv_train_results$loss_func_value,
-        performance = test_performance
+        performance = list(
+          training = train_performance,
+          testing = test_performance
+        )
       ))
     })
 
-    cross_validation <- cv_results
+   # Create a overall test data
+    training_data <- purrr::map2_df(cv_results, names(cv_results), function(cv_folds, fold_name) {
+      data.frame(
+        fold = fold_name,
+        outcome = cv_folds$data$training$outcome,
+        predicted = cv_folds$data$training$predicted,
+        stringsAsFactors = FALSE)
+    })
+
+    training_performance <- control$perf_func(
+      obs = training_data$outcome,
+      pred = training_data$predicted,
+      na.rm = control$na.rm
+    )
+
+    testing_data <- purrr::map2_df(cv_results, names(cv_results), function(cv_folds, fold_name) {
+      data.frame(
+        fold = fold_name,
+        outcome = cv_folds$data$testing$outcome,
+        predicted = cv_folds$data$testing$predicted,
+        stringsAsFactors = FALSE)
+      })
+
+    testing_performance <- control$perf_func(
+      obs = testing_data$outcome,
+      pred = testing_data$predicted,
+      na.rm = control$na.rm
+    )
+
+    cv_coefs <- purrr::map2_df(cv_results, names(cv_results), function(cv_folds, fold_name) {
+      data.frame(
+        fold = fold_name,
+        coefs = names(unlist(cv_folds$coefs)),
+        value = unlist(cv_folds$coefs),
+        stringsAsFactors = FALSE)
+    })
+
+    cv_coefs$coefs <- factor(
+      cv_coefs$coefs,
+      levels = names(unlist(train_results$coefs))
+    )
+
+    cv_performance_training <- purrr::map2_df(cv_results, names(cv_results), function(cv_folds, fold_name) {
+      data.frame(
+        fold = fold_name,
+        metric = names(cv_folds$performance$training),
+        value = cv_folds$performance$training,
+        stringsAsFactors = FALSE)
+    })
+
+    cv_performance_training$metric <- factor(
+      cv_performance_training$metric,
+      levels = names(train_results$performance)
+    )
+
+    cv_performance_testing <- purrr::map2_df(cv_results, names(cv_results), function(cv_folds, fold_name) {
+      data.frame(
+        fold = fold_name,
+        metric = names(cv_folds$performance$testing),
+        value = cv_folds$performance$testing,
+        stringsAsFactors = FALSE)
+    })
+
+    cv_performance_testing$metric <- factor(
+      cv_performance_testing$metric,
+      levels = names(train_results$performance)
+    )
+
+    cv_loss_func_value <- purrr::map2_df(cv_results, names(cv_results), function(cv_folds, fold_name) {
+      data.frame(
+        fold = fold_name,
+        loss_func_value = cv_folds$loss_func_value,
+        stringsAsFactors = FALSE)
+    })
+
+    # The returned list
+    cross_validation <- list(
+      data = list(
+        training = training_data,
+        testing = testing_data
+      ),
+      coefs = cv_coefs,
+      loss_func_value = cv_loss_func_value,
+      performance = list(
+        training = training_performance,
+        testing = testing_performance,
+        folds = list(
+          training = cv_performance_training,
+          testing = cv_performance_testing
+        )
+      ),
+      folds = cv_results
+    )
   } # End of Cross-Validation
 
   # ===================================

@@ -35,7 +35,7 @@ dorem_control <- function(weights = NULL,
                             MAPE <- 100 * mean(abs((pred - obs) / obs), na.rm = na.rm)
                             R_squared <- stats::summary.lm(stats::lm(pred ~ obs))$r.squared
 
-                            list(
+                            performance <- list(
                               meanDiff = meanDiff,
                               SDdiff = SDdiff,
                               RMSE = RMSE,
@@ -45,6 +45,8 @@ dorem_control <- function(weights = NULL,
                               MAPE = MAPE,
                               R_squared = R_squared
                             )
+
+                            unlist(performance)
                           },
                           optim_method = valid_optimization_methods(),
                           optim_maxit = 1000,
