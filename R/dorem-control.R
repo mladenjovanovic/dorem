@@ -7,6 +7,8 @@
 #' @param perf_func Will be explained
 #' @param optim_method Will be explained
 #' @param optim_maxit Will be explained
+#' @param optim_VTR Will be explained
+#' @param optim_grid_n Will be explained
 #' @param optim_trace Will be explained
 #' @param coefs_start Will be explained
 #' @param coefs_lower Will be explained
@@ -26,11 +28,10 @@ dorem_control <- function(weights = NULL,
                             x
                           },
                           perf_func = function(obs, pred, na.rm) {
-
                             if (na.rm == TRUE) {
-                              N = length(stats::na.omit(pred - obs))
+                              N <- length(stats::na.omit(pred - obs))
                             } else {
-                              N = length(pred - obs)
+                              N <- length(pred - obs)
                             }
 
                             meanDiff <- mean(pred - obs, na.rm = na.rm)
@@ -59,6 +60,7 @@ dorem_control <- function(weights = NULL,
                           optim_method = valid_optimization_methods(),
                           optim_maxit = 1000,
                           optim_VTR = -Inf,
+                          optim_grid_n = 5,
                           optim_trace = FALSE,
 
                           coefs_start = NULL,
@@ -86,6 +88,7 @@ dorem_control <- function(weights = NULL,
     optim_method = optim_method,
     optim_maxit = optim_maxit,
     optim_VTR = optim_VTR,
+    optim_grid_n = optim_grid_n,
     optim_trace = optim_trace,
     coefs_start = coefs_start,
     coefs_lower = coefs_lower,
@@ -101,5 +104,5 @@ dorem_control <- function(weights = NULL,
 # ------------------------------------------------------------------------------
 # All valid optimization methods
 valid_optimization_methods <- function() {
-  c("L-BFGS-B", "DE", "CMA-ES")
+  c("L-BFGS-B", "DE", "CMA-ES", "gridSearch")
 }

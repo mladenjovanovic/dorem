@@ -154,6 +154,7 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
     message("Training the model...")
   }
   train_results <- dorem_train_func(predictors, outcome, control)
+  control <- train_results$control
 
   # ===================================
   # Cross validation

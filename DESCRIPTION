@@ -28,7 +28,8 @@ Imports:
     optimx,
     cmaes,
     DEoptim,
-    caret
+    caret,
+    NMOF
 Suggests: 
     recipes,
     tidyverse

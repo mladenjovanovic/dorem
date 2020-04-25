@@ -79,7 +79,7 @@ dorem_optim <- function(par, predict_func, predictors, outcome, control) {
   if (control$optim_method == "DE") {
     # Send warning if user provided starting values
     if (!is.null(control$coefs_start)) {
-      warning("DE method doesn't use starting values for coefficients. Disregarding them.", call. = FALSE)
+      #  warning("DE method doesn't use starting values for coefficients. Disregarding them.", call. = FALSE)
 
       # Remove starting coefs, since DE doesn't
       # use it
@@ -113,6 +113,38 @@ dorem_optim <- function(par, predict_func, predictors, outcome, control) {
 
     par <- model$optim$bestmem
     loss_func_value <- model$optim$bestval
+  }
+
+  # gridSearch
+  if (control$optim_method == "gridSearch") {
+
+    # Send warning if user provided starting values
+    if (!is.null(control$coefs_start)) {
+      #  warning("gridSearch method doesn't use starting values for coefficients. Disregarding them.", call. = FALSE)
+
+      # Remove starting coefs, since gridSearch doesn't
+      # use it
+      control$coefs_start <- control$coefs_start * NA
+    }
+
+    model <- NMOF::gridSearch(
+      fun = objective_func,
+      lower = control$coefs_lower,
+      upper = control$coefs_upper,
+      n = control$optim_grid_n,
+      printDetail = control$optim_trace,
+
+      # Extra params
+      predict_func = predict_func,
+      predictors = predictors,
+      outcome = outcome,
+      weights = control$weights,
+      loss_func = control$loss_func,
+      na.rm = control$na.rm
+    )
+
+    par <- model$minlevels
+    loss_func_value <- model$minfun
   }
 
   # --------------------------------------

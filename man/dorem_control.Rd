@@ -7,20 +7,23 @@
 dorem_control(
   weights = NULL,
   na.rm = TRUE,
-  loss_func = function(obs, pred, weights, na.rm) {     mean(weights * ((pred -
+  loss_func = function(obs, pred, weights, na.rm) {     mean((weights * (pred -
     obs))^2, na.rm = na.rm) },
   link_func = function(x) {     x },
-  perf_func = function(obs, pred, na.rm) {     meanDiff <- mean(pred - obs, na.rm =
-    na.rm)     SDdiff <- stats::sd(pred - obs, na.rm = na.rm)     RMSE <- sqrt(mean((pred
-    - obs)^2, na.rm = na.rm))     MAE <- mean(abs(pred - obs), na.rm = na.rm)     minErr
-    <- min((pred - obs), na.rm = na.rm)     maxErr <- max((pred - obs), na.rm = na.rm)   
-     MAPE <- 100 * mean(abs((pred - obs)/obs), na.rm = na.rm)     R_squared <-
-    stats::summary.lm(stats::lm(pred ~ obs))$r.squared     performance <- list(meanDiff =
-    meanDiff, SDdiff = SDdiff, RMSE = RMSE, MAE = MAE, minErr = minErr, maxErr = maxErr,
-    MAPE = MAPE, R_squared = R_squared)     unlist(performance) },
+  perf_func = function(obs, pred, na.rm) {     if (na.rm == TRUE) {         N <-
+    length(stats::na.omit(pred - obs))     }     else {         N <- length(pred - obs)  
+      }     meanDiff <- mean(pred - obs, na.rm = na.rm)     SDdiff <- stats::sd(pred -
+    obs, na.rm = na.rm)     RMSE <- sqrt(mean((pred - obs)^2, na.rm = na.rm))     MAE <-
+    mean(abs(pred - obs), na.rm = na.rm)     minErr <- min((pred - obs), na.rm = na.rm)  
+      maxErr <- max((pred - obs), na.rm = na.rm)     MAPE <- 100 * mean(abs((pred -
+    obs)/obs), na.rm = na.rm)     R_squared <- stats::summary.lm(stats::lm(pred ~
+    obs))$r.squared     performance <- list(N = N, meanDiff = meanDiff, SDdiff = SDdiff,
+    RMSE = RMSE, MAE = MAE, minErr = minErr, maxErr = maxErr, MAPE = MAPE, R_squared =
+    R_squared)     unlist(performance) },
   optim_method = valid_optimization_methods(),
   optim_maxit = 1000,
   optim_VTR = -Inf,
+  optim_grid_n = 5,
   optim_trace = FALSE,
   coefs_start = NULL,
   coefs_lower = NULL,
@@ -28,7 +31,7 @@ dorem_control(
   cv_repeats = NULL,
   cv_folds = NULL,
   shuffle = FALSE,
-  iter = FALSE,
+  iter = TRUE,
   seed = round(stats::runif(1, 1, 10000), 0)
 )
 }
@@ -46,6 +49,10 @@ dorem_control(
 \item{optim_method}{Will be explained}
 
 \item{optim_maxit}{Will be explained}
+
+\item{optim_VTR}{Will be explained}
+
+\item{optim_grid_n}{Will be explained}
 
 \item{optim_trace}{Will be explained}
 
