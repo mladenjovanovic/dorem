@@ -151,22 +151,90 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
   # ===================================
   # Train model
   if (iter) {
-    message("Training the model...", appendLF = FALSE)
+    message("Training the model...")
   }
   train_results <- dorem_train_func(predictors, outcome, control)
-  if (iter) {
-    message("done!")
-  }
+
+  # ===================================
   # Cross validation
   cross_validation <- NA
 
+  if(!is.null(control$cv_folds)) {
+    # If there is no repeats defined then assume 1
+    if(is.null(control$cv_repeats)) {
+      control$cv_repeats <- 1
+      train_results$control <- 1
+    }
+
+    if (iter) {
+      message(paste("Cross-validating the model using", control$cv_repeats,
+                    "repeats of", control$cv_folds, "folds"))
+    }
+
+    cv_outcome_index <- seq(1, length(outcome))
+
+    # Remove the missing rows/indexes
+    if (control$na.rm == TRUE) {
+      cv_outcome_index <- cv_outcome_index[!is.na(outcome)]
+    }
+
+    # Create CV folds
+    cv_folds <- caret::createMultiFolds(
+      y = cv_outcome_index,
+      k = control$cv_folds,
+      times = control$cv_repeats
+    )
+
+    # Loop through CV folds
+    cv_results <- purrr::map2(cv_folds, names(cv_folds), function(cv_folds, fold_name) {
+      if (iter) {
+        message(paste(fold_name, "...", sep = ""))
+      }
+
+      cv_train_index <- cv_outcome_index[cv_folds]
+      cv_test_index <- cv_outcome_index[-cv_folds]
+
+      # Create test and train outcome partitions
+      cv_train_outcome <- outcome
+      cv_train_outcome[-cv_train_index] <- NA
+
+      cv_test_outcome <- outcome
+      cv_test_outcome[-cv_test_index] <- NA
+
+      # Train
+      cv_train_results <- dorem_train_func(predictors, cv_train_outcome, control)
+
+      # Test
+      test_performance <- control$perf_func(
+        obs = cv_test_outcome,
+        pred = cv_train_results$predicted,
+        na.rm = control$na.rm
+      )
+
+      return(list(
+        data = list(
+          train_predictors = predictors,
+          train_outcome = cv_train_outcome,
+          train_predicted = cv_train_results$predicted,
+          test_predictors = predictors,
+          test_outcome = cv_test_outcome,
+          test_predicted = cv_train_results$predicted
+        ),
+        coefs = cv_train_results$coef,
+        loss_func_value = cv_train_results$loss_func_value,
+        performance = test_performance
+      ))
+    })
+
+    cross_validation <- cv_results
+  } # End of Cross-Validation
 
   # ===================================
   # Shuffle
   shuffle <- NA
   if (control$shuffle == TRUE) {
     if (iter) {
-      message("Training the model using shuffled predictors...", appendLF = FALSE)
+      message("Training the model using shuffled predictors...")
     }
 
     # Shuffle the predictors
@@ -185,14 +253,10 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
       loss_func_value = shuffle_results$loss_func_value,
       performance = shuffle_results$performance
     )
-
-    if (iter) {
-      message("done!")
-    }
   } # End of Shuffle
 
   if (iter) {
-    message("Finished!")
+    message("Done!")
   }
 
   # Return object
