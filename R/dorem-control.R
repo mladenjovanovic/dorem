@@ -1,4 +1,4 @@
-#' Constructor for dorem control object
+#' Constructor for the \code{dorem} control object
 #'
 #' @param weights Will be explained
 #' @param na.rm Will be explained
