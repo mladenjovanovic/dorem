@@ -114,6 +114,7 @@ dorem_bridge <- function(processed, ...) {
     loss_func_value = fit$loss_func_value,
     performance = fit$performance,
     cross_validation = fit$cross_validation,
+    shuffle = fit$shuffle,
     control = fit$control,
     blueprint = processed$blueprint
   )
@@ -123,6 +124,9 @@ dorem_bridge <- function(processed, ...) {
 # ------------------------------------------------------------------------------
 # Implementation
 dorem_impl <- function(predictors, outcome, method = "banister", control = dorem_control()) {
+  # Pull out iter control
+  iter <- control$iter
+
   # Check if method is correct
   rlang::arg_match(method, valid_dorem_methods())
 
@@ -132,6 +136,10 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
     banister = banister_train
   )
 
+  if (iter) {
+    message(paste("Performing", method, "method using", control$optim_method, "optimization"))
+  }
+
   # Set-up seed for reproducibility
   set.seed(control$seed)
 
@@ -140,10 +148,227 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
     control$weights <- rep(1, length(outcome))
   }
 
-  # Perform model
+  # ===================================
+  # Train model
+  if (iter) {
+    message("Training the model...")
+  }
   train_results <- dorem_train_func(predictors, outcome, control)
 
-  cross_validation <- 0
+  # ===================================
+  # Cross validation
+  cross_validation <- NA
+
+  if (!is.null(control$cv_folds)) {
+    # If there is no repeats defined then assume 1
+    if (is.null(control$cv_repeats)) {
+      control$cv_repeats <- 1
+      train_results$control$cv_repeats <- 1
+    }
+
+    if (iter) {
+      message(paste(
+        "Cross-validating the model using", control$cv_repeats,
+        "repeats of", control$cv_folds, "folds"
+      ))
+    }
+
+    cv_outcome_index <- seq(1, length(outcome))
+
+    # Remove the missing rows/indexes
+    if (control$na.rm == TRUE) {
+      cv_outcome_index <- cv_outcome_index[!is.na(outcome)]
+    }
+
+    # Create CV folds
+    cv_folds <- caret::createMultiFolds(
+      y = cv_outcome_index,
+      k = control$cv_folds,
+      times = control$cv_repeats
+    )
+
+    # Loop through CV folds
+    cv_results <- purrr::map2(cv_folds, names(cv_folds), function(cv_folds, fold_name) {
+      if (iter) {
+        message(paste(fold_name, "...", sep = ""))
+      }
+
+      cv_train_index <- cv_outcome_index[cv_folds]
+      cv_test_index <- cv_outcome_index[-cv_folds]
+
+      # Create test and train outcome partitions
+      cv_train_outcome <- outcome
+      cv_train_outcome[-cv_train_index] <- NA
+
+      cv_test_outcome <- outcome
+      cv_test_outcome[-cv_test_index] <- NA
+
+      # Train
+      cv_train_results <- dorem_train_func(predictors, cv_train_outcome, control)
+
+      train_performance <- cv_train_results$performance
+
+      # Test
+      test_performance <- control$perf_func(
+        obs = cv_test_outcome,
+        pred = cv_train_results$predicted,
+        na.rm = control$na.rm
+      )
+
+      return(list(
+        data = list(
+          training = list(
+            predictors = predictors,
+            outcome_index = cv_train_index,
+            outcome = cv_train_outcome,
+            predicted = cv_train_results$predicted
+          ),
+          testing = list(
+            predictors = predictors,
+            outcome_index = cv_test_index,
+            outcome = cv_test_outcome,
+            predicted = cv_train_results$predicted
+          )
+        ),
+        coefs = cv_train_results$coef,
+        loss_func_value = cv_train_results$loss_func_value,
+        performance = list(
+          training = train_performance,
+          testing = test_performance
+        )
+      ))
+    })
+
+    # Create a overall test data
+    training_data <- purrr::map2_df(cv_results, names(cv_results), function(cv_folds, fold_name) {
+      data.frame(
+        fold = fold_name,
+        outcome = cv_folds$data$training$outcome,
+        predicted = cv_folds$data$training$predicted,
+        stringsAsFactors = FALSE
+      )
+    })
+
+    training_performance <- control$perf_func(
+      obs = training_data$outcome,
+      pred = training_data$predicted,
+      na.rm = control$na.rm
+    )
+
+    testing_data <- purrr::map2_df(cv_results, names(cv_results), function(cv_folds, fold_name) {
+      data.frame(
+        fold = fold_name,
+        outcome = cv_folds$data$testing$outcome,
+        predicted = cv_folds$data$testing$predicted,
+        stringsAsFactors = FALSE
+      )
+    })
+
+    testing_performance <- control$perf_func(
+      obs = testing_data$outcome,
+      pred = testing_data$predicted,
+      na.rm = control$na.rm
+    )
+
+    cv_coefs <- purrr::map2_df(cv_results, names(cv_results), function(cv_folds, fold_name) {
+      data.frame(
+        fold = fold_name,
+        coefs = names(unlist(cv_folds$coefs)),
+        value = unlist(cv_folds$coefs),
+        stringsAsFactors = FALSE
+      )
+    })
+
+    cv_coefs$coefs <- factor(
+      cv_coefs$coefs,
+      levels = names(unlist(train_results$coefs))
+    )
+
+    cv_performance_training <- purrr::map2_df(cv_results, names(cv_results), function(cv_folds, fold_name) {
+      data.frame(
+        fold = fold_name,
+        metric = names(cv_folds$performance$training),
+        value = cv_folds$performance$training,
+        stringsAsFactors = FALSE
+      )
+    })
+
+    cv_performance_training$metric <- factor(
+      cv_performance_training$metric,
+      levels = names(train_results$performance)
+    )
+
+    cv_performance_testing <- purrr::map2_df(cv_results, names(cv_results), function(cv_folds, fold_name) {
+      data.frame(
+        fold = fold_name,
+        metric = names(cv_folds$performance$testing),
+        value = cv_folds$performance$testing,
+        stringsAsFactors = FALSE
+      )
+    })
+
+    cv_performance_testing$metric <- factor(
+      cv_performance_testing$metric,
+      levels = names(train_results$performance)
+    )
+
+    cv_loss_func_value <- purrr::map2_df(cv_results, names(cv_results), function(cv_folds, fold_name) {
+      data.frame(
+        fold = fold_name,
+        loss_func_value = cv_folds$loss_func_value,
+        stringsAsFactors = FALSE
+      )
+    })
+
+    # The returned list
+    cross_validation <- list(
+      data = list(
+        training = training_data,
+        testing = testing_data
+      ),
+      coefs = cv_coefs,
+      loss_func_value = cv_loss_func_value,
+      performance = list(
+        training = training_performance,
+        testing = testing_performance,
+        folds = list(
+          training = cv_performance_training,
+          testing = cv_performance_testing
+        )
+      ),
+      folds = cv_results
+    )
+  } # End of Cross-Validation
+
+  # ===================================
+  # Shuffle
+  shuffle <- NA
+  if (control$shuffle == TRUE) {
+    if (iter) {
+      message("Training the model using shuffled predictors...")
+    }
+
+    # Shuffle the predictors
+    rows <- sample(nrow(predictors))
+    predictors <- predictors[rows, ]
+
+    shuffle_results <- dorem_train_func(predictors, outcome, control)
+
+    shuffle <- list(
+      data = list(
+        predictors = predictors,
+        outcome = outcome,
+        predicted = shuffle_results$predicted
+      ),
+      coefs = shuffle_results$coef,
+      loss_func_value = shuffle_results$loss_func_value,
+      performance = shuffle_results$performance
+    )
+  } # End of Shuffle
+
+  if (iter) {
+    message("Done!")
+  }
 
   # Return object
   list(
@@ -157,6 +382,7 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
     loss_func_value = train_results$loss_func_value,
     performance = train_results$performance,
     cross_validation = cross_validation,
+    shuffle = shuffle,
     control = train_results$control
   )
 }

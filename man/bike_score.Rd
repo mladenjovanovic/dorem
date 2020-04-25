@@ -4,12 +4,14 @@
 \name{bike_score}
 \alias{bike_score}
 \title{Cycling BikeScore and 5min Test Power}
-\format{Data frame with 3 variables and 165 observations:
+\format{
+Data frame with 3 variables and 165 observations:
 \describe{
 \item{Day}{Integer vector}
 \item{BikeScore}{BikeScore training load metric in arbitrary units}
 \item{Test_5min_Power}{Results of occasional 5min Power Test in Watts}
-}}
+}
+}
 \source{
 Clarke DC, Skiba PF. 2013. Rationale and resources for teaching the mathematical modeling of athletic
 training and performance. Advances in Physiology Education 37:134–152. DOI: 10.1152/advan.00078.2011.

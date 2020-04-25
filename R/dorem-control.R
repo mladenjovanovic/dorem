@@ -1,4 +1,4 @@
-#' Constructor for dorem control object
+#' Constructor for the \code{dorem} control object
 #'
 #' @param weights Will be explained
 #' @param na.rm Will be explained
@@ -13,6 +13,7 @@
 #' @param coefs_upper Will be explained
 #' @param cv_repeats Will be explained
 #' @param cv_folds Will be explained
+#' @param shuffle Will be explained
 #' @param iter Will be explained
 #' @param seed Will be explained
 #' @export
@@ -34,7 +35,7 @@ dorem_control <- function(weights = NULL,
                             MAPE <- 100 * mean(abs((pred - obs) / obs), na.rm = na.rm)
                             R_squared <- stats::summary.lm(stats::lm(pred ~ obs))$r.squared
 
-                            list(
+                            performance <- list(
                               meanDiff = meanDiff,
                               SDdiff = SDdiff,
                               RMSE = RMSE,
@@ -44,6 +45,8 @@ dorem_control <- function(weights = NULL,
                               MAPE = MAPE,
                               R_squared = R_squared
                             )
+
+                            unlist(performance)
                           },
                           optim_method = valid_optimization_methods(),
                           optim_maxit = 1000,
@@ -56,6 +59,8 @@ dorem_control <- function(weights = NULL,
 
                           cv_repeats = NULL,
                           cv_folds = NULL,
+
+                          shuffle = FALSE,
 
                           iter = FALSE,
                           seed = round(stats::runif(1, 1, 10000), 0)) {
@@ -79,6 +84,7 @@ dorem_control <- function(weights = NULL,
     coefs_upper = coefs_upper,
     cv_repeats = cv_repeats,
     cv_folds = cv_folds,
+    shuffle = shuffle,
     iter = iter,
     seed = seed
   )

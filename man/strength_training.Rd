@@ -4,7 +4,8 @@
 \name{strength_training}
 \alias{strength_training}
 \title{Strength Training Dose and Estimated 1RM}
-\format{Data frame with 900 observations and 8 variables:
+\format{
+Data frame with 900 observations and 8 variables:
 \describe{
 \item{athlete}{Factor with 10 levels, indicating athlete names}
 \item{day}{Integer vector, indicating training day, from 1 to 90}
@@ -16,7 +17,8 @@ This represent the training dose}
 This represent the training dose}
 \item{est1RM}{Numeric vector, indicating estimated 1RM, or the training response}
 \item{est1RMchange}{Numeric vector, indicating day-to-day change in \code{est1RM}}
-}}
+}
+}
 \source{
 \preformatted{Jovanović M. 2020. Strength Training Manual: The Agile Periodization Approach.
 Independently published. ISBN: 9798604459898
