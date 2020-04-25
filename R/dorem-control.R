@@ -19,7 +19,7 @@
 dorem_control <- function(weights = NULL,
                           na.rm = TRUE,
                           loss_func = function(obs, pred, weights, na.rm) {
-                            mean(weights * ((pred - obs))^2, na.rm = na.rm)
+                            mean((weights * (pred - obs))^2, na.rm = na.rm)
                           },
                           link_func = function(x) {
                             x
