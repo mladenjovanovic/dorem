@@ -27,7 +27,8 @@ Imports:
     purrr,
     optimx,
     cmaes,
-    DEoptim
+    DEoptim,
+    caret
 Suggests: 
     recipes,
     tidyverse
