@@ -26,6 +26,13 @@ dorem_control <- function(weights = NULL,
                             x
                           },
                           perf_func = function(obs, pred, na.rm) {
+
+                            if (na.rm == TRUE) {
+                              N = length(stats::na.omit(pred - obs))
+                            } else {
+                              N = length(pred - obs)
+                            }
+
                             meanDiff <- mean(pred - obs, na.rm = na.rm)
                             SDdiff <- stats::sd(pred - obs, na.rm = na.rm)
                             RMSE <- sqrt(mean((pred - obs)^2, na.rm = na.rm))
@@ -36,6 +43,7 @@ dorem_control <- function(weights = NULL,
                             R_squared <- stats::summary.lm(stats::lm(pred ~ obs))$r.squared
 
                             performance <- list(
+                              N = N,
                               meanDiff = meanDiff,
                               SDdiff = SDdiff,
                               RMSE = RMSE,
@@ -62,7 +70,7 @@ dorem_control <- function(weights = NULL,
 
                           shuffle = FALSE,
 
-                          iter = FALSE,
+                          iter = TRUE,
                           seed = round(stats::runif(1, 1, 10000), 0)) {
 
   # Check if appropriate optim method is provided
