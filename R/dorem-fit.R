@@ -184,6 +184,8 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
     }
 
     # Create CV folds
+    # Set-up seed for reproducibility
+    set.seed(control$seed)
     cv_folds <- caret::createMultiFolds(
       y = cv_outcome_index,
       k = control$cv_folds,
@@ -362,6 +364,9 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
     rows <- sample(nrow(predictors))
     predictors <- predictors[rows, ]
 
+
+    # Set-up seed for reproducibility
+    set.seed(control$seed)
     shuffle_results <- dorem_train_func(predictors, outcome, control)
 
     shuffle <- list(
