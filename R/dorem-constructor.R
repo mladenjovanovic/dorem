@@ -1,4 +1,4 @@
-new_dorem <- function(method, data, coefs, loss_func_value, performance, cross_validation, shuffle, control, blueprint) {
+new_dorem <- function(method, data, coefs, loss_func_value, performance, cross_validation, shuffle, control, optim_model, blueprint) {
   hardhat::new_model(
     method = method,
     data = data,
@@ -8,6 +8,7 @@ new_dorem <- function(method, data, coefs, loss_func_value, performance, cross_v
     cross_validation = cross_validation,
     shuffle = shuffle,
     control = control,
+    optim_model = optim_model,
     blueprint = blueprint,
     class = "dorem"
   )

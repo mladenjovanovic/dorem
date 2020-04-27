@@ -163,6 +163,7 @@ dorem_optim <- function(par, predict_func, predictors, outcome, control) {
     loss_func_value = loss_func_value,
     predicted = predicted,
     performance = performance,
-    control = control
+    control = control,
+    optim_model = model
   )
 }

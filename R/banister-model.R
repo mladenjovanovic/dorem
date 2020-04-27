@@ -62,7 +62,8 @@ banister_train <- function(predictors, outcome, control = dorem_control()) {
     loss_func_value = opt_res$loss_func_value,
     predicted = opt_res$predicted,
     performance = opt_res$performance,
-    control = opt_res$control
+    control = opt_res$control,
+    optim_model = opt_res$optim_model
   )
 }
 

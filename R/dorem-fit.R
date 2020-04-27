@@ -116,6 +116,7 @@ dorem_bridge <- function(processed, ...) {
     cross_validation = fit$cross_validation,
     shuffle = fit$shuffle,
     control = fit$control,
+    optim_model = fit$optim_model,
     blueprint = processed$blueprint
   )
 }
@@ -239,7 +240,8 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
         performance = list(
           training = train_performance,
           testing = test_performance
-        )
+        ),
+        optim_model = cv_train_results$optim_model
       ))
     })
 
@@ -370,7 +372,8 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
       ),
       coefs = shuffle_results$coef,
       loss_func_value = shuffle_results$loss_func_value,
-      performance = shuffle_results$performance
+      performance = shuffle_results$performance,
+      optim_model = shuffle_results$optim_model
     )
   } # End of Shuffle
 
@@ -391,7 +394,8 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
     performance = train_results$performance,
     cross_validation = cross_validation,
     shuffle = shuffle,
-    control = train_results$control
+    control = train_results$control,
+    optim_model = train_results$optim_model
   )
 }
 
