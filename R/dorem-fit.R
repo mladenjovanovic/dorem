@@ -140,9 +140,6 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
     message(paste("Performing", method, "method using", control$optim_method, "optimization"))
   }
 
-  # Set-up seed for reproducibility
-  set.seed(control$seed)
-
   # Set up weights
   if (is.null(control$weights)) {
     control$weights <- rep(1, length(outcome))
@@ -153,6 +150,10 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
   if (iter) {
     message("Training the model...")
   }
+
+  # Set-up seed for reproducibility
+  set.seed(control$seed)
+
   train_results <- dorem_train_func(predictors, outcome, control)
   control <- train_results$control
 
@@ -205,6 +206,8 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
       cv_test_outcome[-cv_test_index] <- NA
 
       # Train
+      # Set up the same seed for stochastic search
+      set.seed(control$seed)
       cv_train_results <- dorem_train_func(predictors, cv_train_outcome, control)
 
       train_performance <- cv_train_results$performance
@@ -351,6 +354,9 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
     }
 
     # Shuffle the predictors
+    # Set-up seed for reproducibility, regardless of the CV performed
+    set.seed(control$seed)
+
     rows <- sample(nrow(predictors))
     predictors <- predictors[rows, ]
 
