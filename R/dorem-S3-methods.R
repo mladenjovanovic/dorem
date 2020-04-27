@@ -159,3 +159,72 @@ plot.dorem <- function(x, type = "pred", ...) {
 
   gg
 }
+
+
+#' S3 method for printing model results
+#' @param x Object of class \code{dorem}
+#' @param ... Extra arguments
+#' @export
+#' @examples
+#' data("bike_score")
+#'
+#' banister_model <- dorem(
+#'   Test_5min_Power ~ BikeScore,
+#'   bike_score,
+#'   method = "banister",
+#'   control = dorem_control(
+#'         cv_folds = 3,
+#'         cv_repeats = 5,
+#'         shuffle = TRUE
+#'   )
+#' )
+#' print(banister_model)
+#' @export
+print.dorem <- function(x, ...) {
+  cat("Dose-Response Model using", x$method, "method\n")
+  cat("Training data consists of", ncol(x$data$predictors), ifelse(ncol(x$data$predictors) == 1, "predictor", "predictors"),
+      "and", nrow(x$data$predictors), "observations\n")
+
+  cat("Coefficients are estimated using", x$control$optim_method, "method with", x$control$optim_maxit, "max iterations",
+  "and", x$control$optim_VTR, "VTR\n\n")
+  cat("The following start and bound values were used:\n\n")
+
+  coefs_table <- data.frame(
+    #coefs = names(x$control$coefs_start),
+    start = x$control$coefs_start,
+    lower = x$control$coefs_lower,
+    upper = x$control$coefs_upper
+    )
+
+  print(coefs_table)
+
+  cat("\nEstimated model coefficients are the following:\n\n")
+
+  print(coef(x))
+
+  model_perf <- data.frame(
+    training = x$performance
+  )
+  # Check if CV was performed
+  if (is.list(x$cross_validation)) {
+    model_perf$CV = x$cross_validation$performance$testing
+
+    cat("\nCross-Validation of the model was performed using", x$control$cv_repeats,
+        ifelse(x$control$cv_repeats == 1, "repeat", "repeats"), "of",
+        x$control$cv_folds, "folds.")
+  } else {
+    cat("\nCross-Validation of the model was not performed.")
+  }
+
+  # Check if shuffle were performed
+  if (is.list(x$shuffle)) {
+    model_perf$shuffle = x$shuffle$performance
+    cat(" Shuffling of the predictors was performed.\n")
+  } else {
+    cat(" Shuffling of the predictors was not performed.\n")
+  }
+
+  cat("\nOverall model performance using selected estimators is the following:\n\n")
+
+  print(model_perf)
+}
