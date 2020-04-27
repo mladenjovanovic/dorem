@@ -58,6 +58,12 @@ banister_model <- dorem(
    method = "banister"
 )
 
+# Print results
+banister_model
+
+# get coefs
+coef(banister_model)
+
 # Get model predictions
 bike_score$pred <- predict(banister_model, bike_score)$.pred
 
@@ -76,7 +82,44 @@ response <- ggplot(bike_score, aes(x = Day, y = pred)) +
 cowplot::plot_grid(dose, response, ncol = 1)
 ```
 
-This package is in ongoing development phase and more examples will follow...
+`dorem` also allows more control and setup using the `control` parameter. In the next example, cross-validation of 3 repeats and 5 folds will be performed, with additional feature of *shuffling* the predictors and evaluating how the model predicts on random predictors (i.e., dose):
+
+```{r}
+banister_model <- dorem(
+   Test_5min_Power ~ BikeScore,
+   bike_score,
+   method = "banister",
+   
+   # control setup
+   control = dorem_control(
+    shuffle = TRUE,
+    optim_method = "L-BFGS-B",
+    optim_maxit = 1000,
+    cv_folds = 3,
+    cv_repeats = 5
+   )
+)   
+
+banister_model
+```
+
+To plot model predictions, including the CV as gray area and shuffle as dotted line, use:
+
+```{r}
+plot(banister_model, type = "pred") + theme_minimal()
+```
+
+To plot model coefficients across CV folds:
+
+```{r}
+plot(banister_model, type = "coef") + theme_minimal()
+```
+
+To plot model performance across CV folds (i.e., training and testing folds):
+
+```{r}
+plot(banister_model, type = "perf") + theme_minimal()
+```
 
 ## References
 
