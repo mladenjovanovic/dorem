@@ -134,7 +134,8 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
   # Select appropriate train function based on the method employed
   dorem_train_func <- switch(
     method,
-    banister = banister_train
+    banister = banister_train,
+    EWRA = EWRA_train
   )
 
   if (iter) {
@@ -408,5 +409,5 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
 # ------------------------------------------------------------------------------
 # All valid dorem methods
 valid_dorem_methods <- function() {
-  c("banister")
+  c("banister", "EWRA")
 }
