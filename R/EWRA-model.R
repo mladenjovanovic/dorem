@@ -82,20 +82,12 @@ EWMA_predict <- function(model, predictors) {
     coefs,
     predictors,
     .f = function(.x, .y) {
-      # Function to calculate rolling training effects
-      # See Clarke DC, Skiba PF. 2013. <DOI: 10.1152/advan.00078.2011> for more info
-
-      effect_func <- function(prev, current, tau) {
-        (prev * exp(-1 / tau) + current)
-      }
-
-      PTE <- .x$PTE_gain * purrr::accumulate(.y, effect_func, tau = .x$PTE_tau)
-      NTE <- .x$NTE_gain * purrr::accumulate(.y, effect_func, tau = .x$NTE_tau)
-
+      # Function to calculate EWMA
+      PTE <- .x$PTE_gain * TTR::EMA(x = .y, n = 1, ratio = 2/(.x$PTE_tau + 1))
+      NTE <- .x$NTE_gain * TTR::EMA(x = .y, n = 1, ratio = 2/(.x$NTE_tau + 1))
       return(PTE - NTE)
     }
   )
-
   # Combine training responses
   total_response <- intercept + purrr::pmap_dbl(training_responses, sum)
 

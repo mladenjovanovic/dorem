@@ -33,7 +33,8 @@ Imports:
     tidyverse,
     magrittr,
     dplyr,
-    ggplot2
+    ggplot2,
+    TTR
 Suggests: 
     recipes
 Roxygen: list(markdown = TRUE)
