@@ -202,6 +202,8 @@ print.dorem <- function(x, ...) {
 
   print(coef(x))
 
+  cat("\nObjective function equal to:", x$loss_func_value, "\n")
+
   model_perf <- data.frame(
     training = x$performance
   )
