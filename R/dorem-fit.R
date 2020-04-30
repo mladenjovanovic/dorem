@@ -134,7 +134,8 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
   # Select appropriate train function based on the method employed
   dorem_train_func <- switch(
     method,
-    banister = banister_train
+    banister = banister_train,
+    EWMA = EWMA_train
   )
 
   if (iter) {
@@ -160,7 +161,7 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
 
   # ===================================
   # Cross validation
-  cross_validation <- list(NULL)
+  cross_validation <- NA
 
   if (!is.null(control$cv_folds)) {
     # If there is no repeats defined then assume 1
@@ -350,7 +351,7 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
 
   # ===================================
   # Shuffle
-  shuffle <- list(NULL)
+  shuffle <- NA
 
   if (control$shuffle == TRUE) {
     if (iter) {
@@ -408,5 +409,5 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
 # ------------------------------------------------------------------------------
 # All valid dorem methods
 valid_dorem_methods <- function() {
-  c("banister")
+  c("banister", "EWMA")
 }

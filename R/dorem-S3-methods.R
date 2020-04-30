@@ -36,7 +36,6 @@ coef.dorem <- function(object, ...) {
 #' plot(banister_model)
 plot.dorem <- function(x, type = "pred", ...) {
   rlang::arg_match(type, c("pred", "coef", "perf"))
-
   gg <- list(NULL)
 
   if (type == "pred") {
@@ -67,7 +66,7 @@ plot.dorem <- function(x, type = "pred", ...) {
 
     # If there are cross-validation performed add
     # predictions on the graph
-    if (!is.null(x$cross_validation)) {
+    if (is.list(x$cross_validation)) {
       cv_plot_df <- x$cross_validation$data$testing
       cv_plot_df <- cv_plot_df %>%
         dplyr::group_by(fold) %>%
@@ -91,7 +90,7 @@ plot.dorem <- function(x, type = "pred", ...) {
     }
 
     # If there are shuffle performed
-    if (!is.null(x$shuffle)) {
+    if (is.list(x$shuffle)) {
       shuffle_plot_df <- plot_df
       shuffle_plot_df$predicted <- x$shuffle$data$predicted
 
@@ -200,7 +199,7 @@ print.dorem <- function(x, ...) {
 
   cat("\nEstimated model coefficients are the following:\n\n")
 
-  print(coef(x))
+  print(coef.dorem(x))
 
   cat("\nObjective function equal to:", x$loss_func_value, "\n")
 
