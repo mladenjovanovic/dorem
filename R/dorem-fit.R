@@ -161,7 +161,7 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
 
   # ===================================
   # Cross validation
-  cross_validation <- list(NULL)
+  cross_validation <- NA
 
   if (!is.null(control$cv_folds)) {
     # If there is no repeats defined then assume 1
@@ -351,7 +351,7 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
 
   # ===================================
   # Shuffle
-  shuffle <- list(NULL)
+  shuffle <- NA
 
   if (control$shuffle == TRUE) {
     if (iter) {
@@ -398,8 +398,8 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
     coefs = train_results$coef,
     loss_func_value = train_results$loss_func_value,
     performance = train_results$performance,
-    cross_validation, # = cross_validation,
-    shuffle, #= shuffle,
+    cross_validation = cross_validation,
+    shuffle = shuffle,
     control = train_results$control,
     optim_model = train_results$optim_model
   )
