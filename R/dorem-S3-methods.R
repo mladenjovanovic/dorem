@@ -199,7 +199,7 @@ print.dorem <- function(x, ...) {
 
   cat("\nEstimated model coefficients are the following:\n\n")
 
-  print(coef(x))
+  print(coef.dorem(x))
 
   model_perf <- data.frame(
     training = x$performance
