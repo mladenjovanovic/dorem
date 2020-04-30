@@ -108,7 +108,7 @@ plot.dorem <- function(x, type = "pred", ...) {
   }
 
   if (type == "coef") {
-    if (is.null(x$cross_validation)) {
+    if (!is.list(x$cross_validation)) {
       stop("Coef plot can only be created for cross-validated model", call. = FALSE)
     }
 
@@ -130,7 +130,7 @@ plot.dorem <- function(x, type = "pred", ...) {
   }
 
   if (type == "perf") {
-    if (is.null(x$cross_validation)) {
+    if (!is.list(x$cross_validation)) {
       stop("Perf plot can only be created for cross-validated model", call. = FALSE)
     }
 

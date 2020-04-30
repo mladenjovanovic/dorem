@@ -135,6 +135,7 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
   dorem_train_func <- switch(
     method,
     banister = banister_train,
+    MA = MA_train,
     EWMA = EWMA_train
   )
 
@@ -409,5 +410,5 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
 # ------------------------------------------------------------------------------
 # All valid dorem methods
 valid_dorem_methods <- function() {
-  c("banister", "EWMA")
+  c("banister", "MA", "EWMA")
 }
