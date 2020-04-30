@@ -1,48 +1,48 @@
 # ------------------------------------------------------------------------------
 # Training function
-EWRA_train <- function(predictors, outcome, control = dorem_control()) {
+EWMA_train <- function(predictors, outcome, control = dorem_control()) {
 
   # Function that converts par to coef and returns predictions
   predict_func <- function(par, predictors) {
 
     # create coefs from predictors (to get the right format)
-    coefs <- EWRA_make_coefs(predictors)
+    coefs <- EWMA_make_coefs(predictors)
 
     # Convert par to coefs again
-    coefs <- EWRA_vector_to_coefs(values = par, coefs = coefs)
+    coefs <- EWMA_vector_to_coefs(values = par, coefs = coefs)
 
     # Predict
     model <- list(coefs = coefs, control = control)
-    predicted <- EWRA_predict(model, predictors)
+    predicted <- EWMA_predict(model, predictors)
 
     return(predicted)
   }
 
   # -------------------------------------
   # Get coefs
-  coefs_start <- EWRA_coefs_start(predictors, outcome, control$na.rm)
-  coefs_lower <- EWRA_coefs_lower(predictors, outcome, control$na.rm)
-  coefs_upper <- EWRA_coefs_upper(predictors, outcome, control$na.rm)
+  coefs_start <- EWMA_coefs_start(predictors, outcome, control$na.rm)
+  coefs_lower <- EWMA_coefs_lower(predictors, outcome, control$na.rm)
+  coefs_upper <- EWMA_coefs_upper(predictors, outcome, control$na.rm)
 
   # Check if user provided starting coefs
   if (!is.null(control$coefs_start)) {
-    coefs_start <- EWRA_vector_to_coefs(control$coefs_start, coefs_start)
+    coefs_start <- EWMA_vector_to_coefs(control$coefs_start, coefs_start)
   }
 
   # Check if user provided coefs lower bound
   if (!is.null(control$coefs_lower)) {
-    coefs_lower <- EWRA_vector_to_coefs(control$coefs_lower, coefs_lower)
+    coefs_lower <- EWMA_vector_to_coefs(control$coefs_lower, coefs_lower)
   }
 
   # Check if user provided coefs upper bound
   if (!is.null(control$coefs_upper)) {
-    coefs_upper <- EWRA_vector_to_coefs(control$coefs_upper, coefs_upper)
+    coefs_upper <- EWMA_vector_to_coefs(control$coefs_upper, coefs_upper)
   }
 
   # Convert coefs to par
-  control$coefs_start <- EWRA_coefs_to_vector(coefs_start)
-  control$coefs_lower <- EWRA_coefs_to_vector(coefs_lower)
-  control$coefs_upper <- EWRA_coefs_to_vector(coefs_upper)
+  control$coefs_start <- EWMA_coefs_to_vector(coefs_start)
+  control$coefs_lower <- EWMA_coefs_to_vector(coefs_lower)
+  control$coefs_upper <- EWMA_coefs_to_vector(coefs_upper)
 
   # Call to optim function
   opt_res <- dorem_optim(
@@ -54,7 +54,7 @@ EWRA_train <- function(predictors, outcome, control = dorem_control()) {
   )
 
   # Extract coefs
-  coefs_result <- EWRA_vector_to_coefs(opt_res$par, coefs_start)
+  coefs_result <- EWMA_vector_to_coefs(opt_res$par, coefs_start)
 
   # List to be returned
   list(
@@ -69,7 +69,7 @@ EWRA_train <- function(predictors, outcome, control = dorem_control()) {
 
 # ------------------------------------------------------------------------------
 # Function to predict outcome from coefs and predictors
-EWRA_predict <- function(model, predictors) {
+EWMA_predict <- function(model, predictors) {
   coefs <- model$coefs
 
   # Get and remove intercept
@@ -110,7 +110,7 @@ EWRA_predict <- function(model, predictors) {
 # ============================================================================================
 # The following function deal with coefs and their conversion to par
 # --------------------------------------------------------------------------------------------
-EWRA_make_coefs <- function(predictors) {
+EWMA_make_coefs <- function(predictors) {
   coefs <- purrr::map(predictors, function(...) {
     list(
       PTE_gain = NA, PTE_tau = NA,
@@ -121,7 +121,7 @@ EWRA_make_coefs <- function(predictors) {
   c(intercept = NA, coefs)
 }
 
-EWRA_coefs_start <- function(predictors, outcome, na.rm = TRUE) {
+EWMA_coefs_start <- function(predictors, outcome, na.rm = TRUE) {
   coefs <- purrr::map(predictors, function(...) {
     list(
       PTE_gain = 1, PTE_tau = 21,
@@ -133,7 +133,7 @@ EWRA_coefs_start <- function(predictors, outcome, na.rm = TRUE) {
 }
 
 # --------------------------------------------------------------------------------------------
-EWRA_coefs_lower <- function(predictors, outcome, na.rm = TRUE) {
+EWMA_coefs_lower <- function(predictors, outcome, na.rm = TRUE) {
   coefs <- purrr::map(predictors, function(...) {
     list(
       PTE_gain = 0, PTE_tau = 0,
@@ -145,7 +145,7 @@ EWRA_coefs_lower <- function(predictors, outcome, na.rm = TRUE) {
 }
 
 # --------------------------------------------------------------------------------------------
-EWRA_coefs_upper <- function(predictors, outcome, na.rm = TRUE) {
+EWMA_coefs_upper <- function(predictors, outcome, na.rm = TRUE) {
   coefs <- purrr::map(predictors, function(...) {
     list(
       PTE_gain = 10000, PTE_tau = 300,
@@ -157,12 +157,12 @@ EWRA_coefs_upper <- function(predictors, outcome, na.rm = TRUE) {
 }
 
 # ---------------------------------------------------------------------
-EWRA_coefs_to_vector <- function(coefs) {
+EWMA_coefs_to_vector <- function(coefs) {
   unlist(coefs)
 }
 
 # ---------------------------------------------------------------------
-EWRA_vector_to_coefs <- function(values, coefs) {
+EWMA_vector_to_coefs <- function(values, coefs) {
   coefs_new <- coefs
 
   # Assign intercept

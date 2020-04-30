@@ -72,7 +72,7 @@ predict_dorem_numeric <- function(model, predictors) {
   dorem_predict_func <- switch(
     model$method,
     banister = banister_predict,
-    EWRA = EWRA_predict
+    EWMA = EWMA_predict
   )
 
   predictions <- dorem_predict_func(model, predictors)
