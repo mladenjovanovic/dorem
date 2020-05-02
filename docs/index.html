@@ -102,7 +102,7 @@
 
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"bike_score"</span>)
 
-<span class="no">banister_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/dorem/man/dorem-package.html">dorem</a></span>(
+<span class="no">banister_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/dorem.html">dorem</a></span>(
    <span class="no">Test_5min_Power</span> ~ <span class="no">BikeScore</span>,
    <span class="no">bike_score</span>,
    <span class="kw">method</span> <span class="kw">=</span> <span class="st">"banister"</span>
@@ -170,7 +170,7 @@
 <span class="kw pkg">cowplot</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/cowplot/man/plot_grid.html">plot_grid</a></span>(<span class="no">dose</span>, <span class="no">response</span>, <span class="kw">ncol</span> <span class="kw">=</span> <span class="fl">1</span>)</pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p><code>dorem</code> also allows more control and setup using the <code>control</code> parameter. In the next example, cross-validation of 3 repeats and 5 folds will be performed, with additional feature of <em>shuffling</em> the predictors and evaluating how the model predicts on random predictors (i.e., dose):</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="no">banister_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/dorem/man/dorem-package.html">dorem</a></span>(
+<div class="sourceCode" id="cb3"><pre class="r"><span class="no">banister_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/dorem.html">dorem</a></span>(
    <span class="no">Test_5min_Power</span> ~ <span class="no">BikeScore</span>,
    <span class="no">bike_score</span>,
    <span class="kw">method</span> <span class="kw">=</span> <span class="st">"banister"</span>,
@@ -285,7 +285,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

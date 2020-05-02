@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Constructor for the <code>dorem</code> control object — dorem_control • dorem</title>
+<title>S3 method for printing model results — print.dorem • dorem</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Constructor for the <code>dorem</code> control object — dorem_control" />
-<meta property="og:description" content="Constructor for the dorem control object" />
+<meta property="og:title" content="S3 method for printing model results — print.dorem" />
+<meta property="og:description" content="S3 method for printing model results" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -116,112 +116,28 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Constructor for the <code>dorem</code> control object</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mladenjovanovic/dorem/blob/master/R/dorem-control.R'><code>R/dorem-control.R</code></a></small>
-    <div class="hidden name"><code>dorem_control.Rd</code></div>
+    <h1>S3 method for printing model results</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mladenjovanovic/dorem/blob/master/R/dorem-S3-methods.R'><code>R/dorem-S3-methods.R</code></a></small>
+    <div class="hidden name"><code>print.dorem.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Constructor for the <code>dorem</code> control object</p>
+    <p>S3 method for printing model results</p>
     </div>
 
-    <pre class="usage"><span class='fu'>dorem_control</span>(
-  <span class='kw'>weights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>loss_func</span> <span class='kw'>=</span> <span class='no'>dorem_loss_func</span>,
-  <span class='kw'>link_func</span> <span class='kw'>=</span> <span class='no'>dorem_no_link_func</span>,
-  <span class='kw'>perf_func</span> <span class='kw'>=</span> <span class='no'>dorem_perf_func</span>,
-  <span class='kw'>optim_method</span> <span class='kw'>=</span> <span class='fu'>valid_optimization_methods</span>(),
-  <span class='kw'>optim_maxit</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>optim_VTR</span> <span class='kw'>=</span> -<span class='fl'>Inf</span>,
-  <span class='kw'>optim_grid_n</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-  <span class='kw'>optim_trace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>coefs_start</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>coefs_lower</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>coefs_upper</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>cv_repeats</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>cv_folds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>shuffle</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='co'># S3 method for dorem</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>weights</th>
-      <td><p>Default is NULL</p></td>
+      <th>x</th>
+      <td><p>Object of class <code>dorem</code></p></td>
     </tr>
     <tr>
-      <th>na.rm</th>
-      <td><p>Default is TRUE</p></td>
-    </tr>
-    <tr>
-      <th>loss_func</th>
-      <td><p>Function used in optimization objective function. Default is <code><a href='dorem_loss_func.html'>dorem_loss_func</a></code>
-which returns MSE</p></td>
-    </tr>
-    <tr>
-      <th>link_func</th>
-      <td><p>Function used to convert predictions. Default is <code><a href='dorem_no_link_func.html'>dorem_no_link_func</a></code>
-which returns the original value</p></td>
-    </tr>
-    <tr>
-      <th>perf_func</th>
-      <td><p>Function used to quantify model fit. Default is <code><a href='dorem_perf_func.html'>dorem_perf_func</a></code></p></td>
-    </tr>
-    <tr>
-      <th>optim_method</th>
-      <td><p>Optimization method. The list of supported methods is <code><a href='https://rdrr.io/r/base/c.html'>c("L-BFGS-B", "DE", "CMA-ES", "gridSearch")</a></code></p></td>
-    </tr>
-    <tr>
-      <th>optim_maxit</th>
-      <td><p>Maximal number of iterations for the optimization method. Default is 1000</p></td>
-    </tr>
-    <tr>
-      <th>optim_VTR</th>
-      <td><p>Value To Reach in the optimization method. Default is -Inf</p></td>
-    </tr>
-    <tr>
-      <th>optim_grid_n</th>
-      <td><p>Number of search values for each predictor used in gridSearch method. Default is 5</p></td>
-    </tr>
-    <tr>
-      <th>optim_trace</th>
-      <td><p>Should optimization trace be shown? Default is FALSE</p></td>
-    </tr>
-    <tr>
-      <th>coefs_start</th>
-      <td><p>Starting values for coefficients</p></td>
-    </tr>
-    <tr>
-      <th>coefs_lower</th>
-      <td><p>Lower bound for coefficients</p></td>
-    </tr>
-    <tr>
-      <th>coefs_upper</th>
-      <td><p>Upper bound for coefficients</p></td>
-    </tr>
-    <tr>
-      <th>cv_repeats</th>
-      <td><p>Number of CV repeats</p></td>
-    </tr>
-    <tr>
-      <th>cv_folds</th>
-      <td><p>Number of CV folds</p></td>
-    </tr>
-    <tr>
-      <th>shuffle</th>
-      <td><p>Should shuffle be performed? Default is FALSE</p></td>
-    </tr>
-    <tr>
-      <th>iter</th>
-      <td><p>Should iter be shown? Default is TRUE</p></td>
-    </tr>
-    <tr>
-      <th>seed</th>
-      <td><p>Random number seed</p></td>
+      <th>...</th>
+      <td><p>Extra arguments</p></td>
     </tr>
     </table>
 
@@ -233,12 +149,47 @@ which returns the original value</p></td>
   <span class='no'>Test_5min_Power</span> ~ <span class='no'>BikeScore</span>,
   <span class='no'>bike_score</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"banister"</span>,
-  <span class='kw'>control</span> <span class='kw'>=</span> <span class='fu'>dorem_control</span>(
+  <span class='kw'>control</span> <span class='kw'>=</span> <span class='fu'><a href='dorem_control.html'>dorem_control</a></span>(
         <span class='kw'>cv_folds</span> <span class='kw'>=</span> <span class='fl'>3</span>,
         <span class='kw'>cv_repeats</span> <span class='kw'>=</span> <span class='fl'>5</span>,
         <span class='kw'>shuffle</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
   )
-)</div><div class='output co'>#&gt; <span class='message'>Performing banister method using L-BFGS-B optimization</span></div><div class='output co'>#&gt; <span class='message'>Training the model...</span></div><div class='output co'>#&gt; <span class='message'>Cross-validating the model using 5 repeats of 3 folds</span></div><div class='output co'>#&gt; <span class='message'>Fold1.Rep1...</span></div><div class='output co'>#&gt; <span class='message'>Fold2.Rep1...</span></div><div class='output co'>#&gt; <span class='message'>Fold3.Rep1...</span></div><div class='output co'>#&gt; <span class='message'>Fold1.Rep2...</span></div><div class='output co'>#&gt; <span class='message'>Fold2.Rep2...</span></div><div class='output co'>#&gt; <span class='message'>Fold3.Rep2...</span></div><div class='output co'>#&gt; <span class='message'>Fold1.Rep3...</span></div><div class='output co'>#&gt; <span class='message'>Fold2.Rep3...</span></div><div class='output co'>#&gt; <span class='message'>Fold3.Rep3...</span></div><div class='output co'>#&gt; <span class='message'>Fold1.Rep4...</span></div><div class='output co'>#&gt; <span class='message'>Fold2.Rep4...</span></div><div class='output co'>#&gt; <span class='message'>Fold3.Rep4...</span></div><div class='output co'>#&gt; <span class='message'>Fold1.Rep5...</span></div><div class='output co'>#&gt; <span class='message'>Fold2.Rep5...</span></div><div class='output co'>#&gt; <span class='message'>Fold3.Rep5...</span></div><div class='output co'>#&gt; <span class='message'>Training the model using shuffled predictors...</span></div><div class='output co'>#&gt; <span class='message'>Done!</span></div></pre>
+)</div><div class='output co'>#&gt; <span class='message'>Performing banister method using L-BFGS-B optimization</span></div><div class='output co'>#&gt; <span class='message'>Training the model...</span></div><div class='output co'>#&gt; <span class='message'>Cross-validating the model using 5 repeats of 3 folds</span></div><div class='output co'>#&gt; <span class='message'>Fold1.Rep1...</span></div><div class='output co'>#&gt; <span class='message'>Fold2.Rep1...</span></div><div class='output co'>#&gt; <span class='message'>Fold3.Rep1...</span></div><div class='output co'>#&gt; <span class='message'>Fold1.Rep2...</span></div><div class='output co'>#&gt; <span class='message'>Fold2.Rep2...</span></div><div class='output co'>#&gt; <span class='message'>Fold3.Rep2...</span></div><div class='output co'>#&gt; <span class='message'>Fold1.Rep3...</span></div><div class='output co'>#&gt; <span class='message'>Fold2.Rep3...</span></div><div class='output co'>#&gt; <span class='message'>Fold3.Rep3...</span></div><div class='output co'>#&gt; <span class='message'>Fold1.Rep4...</span></div><div class='output co'>#&gt; <span class='message'>Fold2.Rep4...</span></div><div class='output co'>#&gt; <span class='message'>Fold3.Rep4...</span></div><div class='output co'>#&gt; <span class='message'>Fold1.Rep5...</span></div><div class='output co'>#&gt; <span class='message'>Fold2.Rep5...</span></div><div class='output co'>#&gt; <span class='message'>Fold3.Rep5...</span></div><div class='output co'>#&gt; <span class='message'>Training the model using shuffled predictors...</span></div><div class='output co'>#&gt; <span class='message'>Done!</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>banister_model</span>)</div><div class='output co'>#&gt; Dose-Response Model using banister method
+#&gt; Training data consists of 1 predictor and 165 observations
+#&gt; Coefficients are estimated using L-BFGS-B method with 1000 max iterations and -Inf VTR
+#&gt; 
+#&gt; The following start and bound values were used:
+#&gt; 
+#&gt;                    start lower upper
+#&gt; intercept            271     0   302
+#&gt; BikeScore.PTE_gain     1     0 10000
+#&gt; BikeScore.PTE_tau     21     0   300
+#&gt; BikeScore.NTE_gain     3     0 10000
+#&gt; BikeScore.NTE_tau      7     0   300
+#&gt; 
+#&gt; Estimated model coefficients are the following:
+#&gt; 
+#&gt;          intercept BikeScore.PTE_gain  BikeScore.PTE_tau BikeScore.NTE_gain 
+#&gt;        266.0204779          0.3020749         33.6433797          0.3514750 
+#&gt;  BikeScore.NTE_tau 
+#&gt;         24.6056388 
+#&gt; 
+#&gt; Objective function equal to: 2.1939 
+#&gt; 
+#&gt; Cross-Validation of the model was performed using 5 repeats of 3 folds. Shuffling of the predictors was performed.
+#&gt; 
+#&gt; Overall model performance using selected estimators is the following:
+#&gt; 
+#&gt;              training         CV       shuffle
+#&gt; N          9.00000000  45.000000  9.000000e+00
+#&gt; meanDiff   0.01374013  -1.240419 -2.865592e-06
+#&gt; SDdiff     1.57096328   6.099774  3.506197e+00
+#&gt; RMSE       1.48118212   6.157845  3.305674e+00
+#&gt; MAE        1.16731419   3.293757  2.830535e+00
+#&gt; minErr    -2.71352646 -33.580682 -5.498230e+00
+#&gt; maxErr     2.22332820   9.961517  5.207445e+00
+#&gt; MAPE       0.40904959   1.139914  9.831404e-01
+#&gt; R_squared  0.97975692   0.698462  8.991194e-01</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

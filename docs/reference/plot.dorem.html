@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Strength Training Dose and Estimated 1RM — strength_training • dorem</title>
+<title>S3 method for plotting model — plot.dorem • dorem</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,13 +46,8 @@
 
 
 
-<meta property="og:title" content="Strength Training Dose and Estimated 1RM — strength_training" />
-<meta property="og:description" content="This data set is used in Jovanovic, M. (2020) and it is generated for the purpose of demonstrating
-one particular method of dose-response modeling. It represents strength training dose for N=10
-athletes over 90 days. Training dose is represents with total upper- or lower- number of lifts
-(UBNL, LBNL), while the training response is represented with estimated 1RM variable
-(est1RM). Additional variables in this data set are workout (either Total, Lower, Upper
-or Off) and type indicating training stress (easy, medium, hard)." />
+<meta property="og:title" content="S3 method for plotting model — plot.dorem" />
+<meta property="og:description" content="S3 method for plotting model" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -121,47 +116,49 @@ or Off) and type indicating training stress (easy, medium, hard)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Strength Training Dose and Estimated 1RM</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mladenjovanovic/dorem/blob/master/R/strength-training.R'><code>R/strength-training.R</code></a></small>
-    <div class="hidden name"><code>strength_training.Rd</code></div>
+    <h1>S3 method for plotting model</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mladenjovanovic/dorem/blob/master/R/dorem-S3-methods.R'><code>R/dorem-S3-methods.R</code></a></small>
+    <div class="hidden name"><code>plot.dorem.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This data set is used in Jovanovic, M. (2020) and it is generated for the purpose of demonstrating
-one particular method of dose-response modeling. It represents strength training dose for N=10
-athletes over 90 days. Training dose is represents with total upper- or lower- number of lifts
-(<code>UBNL</code>, <code>LBNL</code>), while the training response is represented with estimated 1RM variable
-(<code>est1RM</code>). Additional variables in this data set are <code>workout</code> (either Total, Lower, Upper
-or Off) and <code>type</code> indicating training stress (easy, medium, hard).</p>
+    <p>S3 method for plotting model</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>strength_training</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for dorem</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pred"</span>, <span class='no'>...</span>)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>Object of class <code>dorem</code></p></td>
+    </tr>
+    <tr>
+      <th>type</th>
+      <td><p>Type of plot. Options are "pred", "coef", "perf", which "pred" being default</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Extra arguments</p></td>
+    </tr>
+    </table>
 
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"bike_score"</span>)
 
-    <p>Data frame with 900 observations and 8 variables:</p><dl'>
-<dt>athlete</dt><dd><p>Factor with 10 levels, indicating athlete names</p></dd>
-<dt>day</dt><dd><p>Integer vector, indicating training day, from 1 to 90</p></dd>
-<dt>workout</dt><dd><p>Factor with 4 levels, indicating type of training session: Total, Lower, Upper and Off</p></dd>
-<dt>type</dt><dd><p>Factor with 4 levels, indicating training stress: Easy, Medium, and Hard</p></dd>
-<dt>UBNL</dt><dd><p>Integer vector, indicating upper body number of lifts in a session.
-This represent the training dose</p></dd>
-<dt>LBNL</dt><dd><p>Integer vector, indicating lower body number of lifts in a session.
-This represent the training dose</p></dd>
-<dt>est1RM</dt><dd><p>Numeric vector, indicating estimated 1RM, or the training response</p></dd>
-<dt>est1RMchange</dt><dd><p>Numeric vector, indicating day-to-day change in <code>est1RM</code></p></dd>
-
-</dl>
-
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
-
-    
-<pre>Jovanović M. 2020. Strength Training Manual: The Agile Periodization Approach.
-Independently published. ISBN: 9798604459898
-</pre>
-
-
+<span class='no'>banister_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='dorem.html'>dorem</a></span>(
+  <span class='no'>Test_5min_Power</span> ~ <span class='no'>BikeScore</span>,
+  <span class='no'>bike_score</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"banister"</span>,
+  <span class='kw'>control</span> <span class='kw'>=</span> <span class='fu'><a href='dorem_control.html'>dorem_control</a></span>(
+        <span class='kw'>cv_folds</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+        <span class='kw'>cv_repeats</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+        <span class='kw'>shuffle</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+  )
+)</div><div class='output co'>#&gt; <span class='message'>Performing banister method using L-BFGS-B optimization</span></div><div class='output co'>#&gt; <span class='message'>Training the model...</span></div><div class='output co'>#&gt; <span class='message'>Cross-validating the model using 5 repeats of 3 folds</span></div><div class='output co'>#&gt; <span class='message'>Fold1.Rep1...</span></div><div class='output co'>#&gt; <span class='message'>Fold2.Rep1...</span></div><div class='output co'>#&gt; <span class='message'>Fold3.Rep1...</span></div><div class='output co'>#&gt; <span class='message'>Fold1.Rep2...</span></div><div class='output co'>#&gt; <span class='message'>Fold2.Rep2...</span></div><div class='output co'>#&gt; <span class='message'>Fold3.Rep2...</span></div><div class='output co'>#&gt; <span class='message'>Fold1.Rep3...</span></div><div class='output co'>#&gt; <span class='message'>Fold2.Rep3...</span></div><div class='output co'>#&gt; <span class='message'>Fold3.Rep3...</span></div><div class='output co'>#&gt; <span class='message'>Fold1.Rep4...</span></div><div class='output co'>#&gt; <span class='message'>Fold2.Rep4...</span></div><div class='output co'>#&gt; <span class='message'>Fold3.Rep4...</span></div><div class='output co'>#&gt; <span class='message'>Fold1.Rep5...</span></div><div class='output co'>#&gt; <span class='message'>Fold2.Rep5...</span></div><div class='output co'>#&gt; <span class='message'>Fold3.Rep5...</span></div><div class='output co'>#&gt; <span class='message'>Training the model using shuffled predictors...</span></div><div class='output co'>#&gt; <span class='message'>Done!</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>banister_model</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 156 rows containing missing values (geom_point).</span></div><div class='img'><img src='plot.dorem-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
