@@ -2,8 +2,8 @@
 % Please edit documentation in R/dorem-package.R
 \docType{package}
 \name{dorem-package}
-\alias{dorem}
 \alias{dorem-package}
+\alias{_PACKAGE}
 \title{dorem: Dose Response Modeling}
 \description{
 \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
