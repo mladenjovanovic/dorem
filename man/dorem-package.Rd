@@ -27,6 +27,7 @@ Useful links:
 Other contributors:
 \itemize{
   \item Benedict Stephens Hemingway \email{b.stephens-hemingway@rgu.ac.uk} [contributor]
+  \item Paul Swinton \email{p.swinton@rgu.ac.uk} [contributor]
 }
 
 }

@@ -1,6 +1,6 @@
 Package: dorem
 Title: Dose Response Modeling
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R: 
     c(person(given = "Mladen",
            family = "Jovanovic",
@@ -9,7 +9,11 @@ Authors@R:
       person(given = "Benedict",
            family = "Stephens Hemingway",
            role = c("ctb"),
-           email = "b.stephens-hemingway@rgu.ac.uk"))
+           email = "b.stephens-hemingway@rgu.ac.uk"),
+      person(given = "Paul",
+           family = "Swinton",
+           role = c("ctb"),
+           email = "p.swinton@rgu.ac.uk"))
 Description: Understanding the effects of training dose to training response
     (i.e., performance) is one of the major goals of sports science. 
     The goal of this package is to provide easy-to-use dose-response models
@@ -38,4 +42,4 @@ Imports:
 Suggests: 
     recipes
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1

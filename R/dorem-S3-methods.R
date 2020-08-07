@@ -35,6 +35,17 @@ coef.dorem <- function(object, ...) {
 #' )
 #' plot(banister_model)
 plot.dorem <- function(x, type = "pred", ...) {
+
+  # +++++++++++++++++++++++++++++++++++++++++++
+  # Code chunk for dealing with R CMD check note
+  outcome <- NULL
+  predicted <- NULL
+  fold <- NULL
+  y_min <- NULL
+  y_max <- NULL
+  value <- NULL
+  # +++++++++++++++++++++++++++++++++++++++++++
+
   rlang::arg_match(type, c("pred", "coef", "perf"))
   gg <- list(NULL)
 

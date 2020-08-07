@@ -74,7 +74,9 @@ banister_model
 #>  BikeScore.NTE_tau 
 #>         24.6056388 
 #> 
-#> Cross-Validation of the model was performed using  of folds. Shuffling of the predictors was performed.
+#> Objective function equal to: 2.1939 
+#> 
+#> Cross-Validation of the model was not performed. Shuffling of the predictors was not performed.
 #> 
 #> Overall model performance using selected estimators is the following:
 #> 
@@ -159,20 +161,22 @@ banister_model
 #>  BikeScore.NTE_tau 
 #>         24.6056388 
 #> 
+#> Objective function equal to: 2.1939 
+#> 
 #> Cross-Validation of the model was performed using 5 repeats of 3 folds. Shuffling of the predictors was performed.
 #> 
 #> Overall model performance using selected estimators is the following:
 #> 
 #>              training         CV       shuffle
 #> N          9.00000000 45.0000000  9.000000e+00
-#> meanDiff   0.01374013 -0.1646462  6.161841e-06
-#> SDdiff     1.57096328  3.2010940  2.809889e+00
-#> RMSE       1.48118212  3.1696057  2.649189e+00
-#> MAE        1.16731419  2.2647381  2.249020e+00
-#> minErr    -2.71352646 -9.1674206 -3.822531e+00
-#> maxErr     2.22332820  9.4442200  5.080066e+00
-#> MAPE       0.40904959  0.7799386  7.798006e-01
-#> R_squared  0.97975692  0.9125750  9.352092e-01
+#> meanDiff   0.01374013  0.5492457  2.140563e-05
+#> SDdiff     1.57096328  3.0658154  1.388387e+00
+#> RMSE       1.48118212  3.0809127  1.308984e+00
+#> MAE        1.16731419  2.2366433  1.122197e+00
+#> minErr    -2.71352646 -4.0691138 -2.073424e+00
+#> maxErr     2.22332820 10.6731494  2.029794e+00
+#> MAPE       0.40904959  0.7745906  3.904557e-01
+#> R_squared  0.97975692  0.9202709  9.841818e-01
 ```
 
 To plot model predictions, including the CV as gray area and shuffle as
