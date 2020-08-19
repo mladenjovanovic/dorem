@@ -17,6 +17,8 @@
 #' @param coefs_upper Upper bound for coefficients
 #' @param cv_repeats Number of CV repeats
 #' @param cv_folds Number of CV folds
+#' @param dose_before_response If dose variable and performance variable happen on the same row (i.e. same day),
+#'     does dose precedes response? This assumes that the dose is done before response. Default is \code{TRUE}
 #' @param shuffle Should shuffle be performed? Default is FALSE
 #' @param iter Should iter be shown? Default is TRUE
 #' @param seed Random number seed
@@ -52,6 +54,8 @@ dorem_control <- function(weights = NULL,
                           cv_repeats = NULL,
                           cv_folds = NULL,
 
+                          dose_before_response = TRUE,
+
                           shuffle = FALSE,
 
                           iter = TRUE,
@@ -82,6 +86,7 @@ dorem_control <- function(weights = NULL,
     coefs_upper = coefs_upper,
     cv_repeats = cv_repeats,
     cv_folds = cv_folds,
+    dose_before_response = dose_before_response,
     shuffle = shuffle,
     iter = iter,
     seed = seed

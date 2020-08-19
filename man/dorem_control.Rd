@@ -20,6 +20,7 @@ dorem_control(
   coefs_upper = NULL,
   cv_repeats = NULL,
   cv_folds = NULL,
+  dose_before_response = TRUE,
   shuffle = FALSE,
   iter = TRUE,
   seed = NULL
@@ -57,6 +58,9 @@ which returns the original value}
 \item{cv_repeats}{Number of CV repeats}
 
 \item{cv_folds}{Number of CV folds}
+
+\item{dose_before_response}{If dose variable and performance variable happen on the same row (i.e. same day),
+does dose precedes response? This assumes that the dose is done before response. Default is \code{TRUE}}
 
 \item{shuffle}{Should shuffle be performed? Default is FALSE}
 

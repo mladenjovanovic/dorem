@@ -125,6 +125,21 @@ dorem_bridge <- function(processed, ...) {
 # ------------------------------------------------------------------------------
 # Implementation
 dorem_impl <- function(predictors, outcome, method = "banister", control = dorem_control()) {
+  # Dose before Response?
+  # If this is the case, then shift predictors for one row and put 0s at the i=1
+  # and add N/A at the end of response
+
+
+  if(control$dose_before_response == FALSE) {
+    predictors <- rbind(predictors[1,] * 0, predictors)
+    outcome <- c(outcome, NA)
+
+    # Fix weights variable as well
+    if (!is.null(control$weights)) {
+      control$weights <- c(0, control$weights)
+    }
+  }
+
   # Pull out iter control
   iter <- control$iter
 
@@ -213,6 +228,7 @@ dorem_impl <- function(predictors, outcome, method = "banister", control = dorem
       # Train
       # Set up the same seed for stochastic search
       set.seed(control$seed)
+
       cv_train_results <- dorem_train_func(predictors, cv_train_outcome, control)
 
       train_performance <- cv_train_results$performance

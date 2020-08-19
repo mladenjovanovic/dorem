@@ -68,6 +68,14 @@ get_predict_function <- function(type) {
 # Implementation
 
 predict_dorem_numeric <- function(model, predictors) {
+  # Dose before Response?
+  # If this is the case, then shift predictors for one row and put 0s at the i=1
+
+  if(model$control$dose_before_response == FALSE) {
+    predictors <- rbind(predictors[1,] * 0, predictors)
+  }
+
+
   # Select appropriate prediction function based on the method employed
   dorem_predict_func <- switch(
     model$method,
@@ -77,5 +85,13 @@ predict_dorem_numeric <- function(model, predictors) {
   )
 
   predictions <- dorem_predict_func(model, predictors)
+
+  # Dose before Response?
+  # If this is the case, then remove the latest element of the prediction to comply
+  # with the original size of the vector
+  if(model$control$dose_before_response == FALSE) {
+    predictions <- predictions[-length(predictions)]
+  }
+
   hardhat::spruce_numeric(predictions)
 }
